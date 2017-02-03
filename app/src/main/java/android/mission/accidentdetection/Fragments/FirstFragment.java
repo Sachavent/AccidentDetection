@@ -1,11 +1,12 @@
 package android.mission.accidentdetection.Fragments;
 
+import android.hardware.SensorEvent;
 import android.location.LocationManager;
-import android.mission.accidentdetection.Listener.LocationListener;
-import android.mission.accidentdetection.Listener.SensorListener;
+import android.mission.accidentdetection.Listener.GpsListener;
 import android.mission.accidentdetection.R;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,11 +33,11 @@ public class FirstFragment extends Fragment {
     private SensorManager mSensorManager;
     private Sensor accelerometer;
     private Sensor gyroscope;
-    private SensorListener sensorListener;
-
     // Location
     private LocationManager locationManager;
-    private LocationListener locationListener;
+
+    // Listener
+    private GpsListener gpsListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,9 +50,17 @@ public class FirstFragment extends Fragment {
 
         // Lance le service de localisation
         locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
-        locationListener = new LocationListener(getContext());
+        gpsListener = new GpsListener(getContext(), new GpsListener.GpsCallBack() {
+            @Override
+            public void onSpeedRecieved(Float vitesse) {
+                Log.d("vitesse", "vitesse: "+vitesse);
+            }
 
-        sensorListener = new SensorListener();
+            @Override
+            public void onSensorEventRecieved(SensorEvent event) {
+                Log.d("capteur", "capteur: "+event);
+            }
+        });
     }
 
     public static FirstFragment newInstance(int instance) {
@@ -75,22 +84,22 @@ public class FirstFragment extends Fragment {
         gyrotxt = (TextView)getActivity().findViewById(R.id.gyrotxtID);
 
         /** Using GPS */
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, gpsListener);
 
     }
-
+    
 
     @Override
     public void onPause() {
-        mSensorManager.unregisterListener(sensorListener, accelerometer);
-        mSensorManager.unregisterListener(sensorListener, gyroscope);
+        mSensorManager.unregisterListener(gpsListener, accelerometer);
+        mSensorManager.unregisterListener(gpsListener, gyroscope);
         super.onPause();
     }
 
     @Override
     public void onResume() {
-        mSensorManager.registerListener(sensorListener, accelerometer, SensorManager.SENSOR_DELAY_UI);
-        mSensorManager.registerListener(sensorListener, gyroscope, SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(gpsListener, accelerometer, SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(gpsListener, gyroscope, SensorManager.SENSOR_DELAY_UI);
         super.onResume();
     }
 
