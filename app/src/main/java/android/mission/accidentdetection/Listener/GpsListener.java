@@ -14,6 +14,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import java.util.Timer;
+
 /**
  * Created by Annick on 03/02/2017.
  */
@@ -24,21 +26,42 @@ public class GpsListener extends AppCompatActivity implements android.location.L
     private float vitesse;
     GpsCallBack gpsCallBack;
 
+    private int acc_flag = 0;
+    private int gyr_flag = 0;
+    private int vit_flag = 0;
+    private Timer t;
 
     public GpsListener(Context context, GpsCallBack gpsCallBack) {
         contexte = context;
         this.gpsCallBack = gpsCallBack;
+
+        /* t = new Timer();
+        t.scheduleAtFixedRate(new TimerTask() {
+            public void run() {
+                try{
+                    //Do Calculation every 1 sec
+
+
+                }catch (Exception e) {
+                }
+            }
+        }, 1000, 1000);*/
+
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER){
             //If accelerometer data
-            //acceltxt.setText("Accelerometer :\nx:"+event.values[0] + "\ny:" +event.values[1] + "\nz:" + event.values[2]);
+            if (event.values[0]+event.values[1]+event.values[2] > 10){
+                acc_flag = 1;
+            }
             Log.d("sensor", "Accelerometer :\nx:"+event.values[0] + "\ny:" +event.values[1] + "\nz:" + event.values[2]);
         }else if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE){
             //If gyro data
-            //gyrotxt.setText("Gyrometer :\nx:"+event.values[0] + "\ny:" +event.values[1] + "\nz:" + event.values[2]);
+            if (event.values[0]+event.values[1]+event.values[2] > 10){
+                gyr_flag = 1;
+            }
             Log.d("sensor",event.values[0] + " " +event.values[1] + " " + event.values[2]);
         }
 
@@ -53,14 +76,23 @@ public class GpsListener extends AppCompatActivity implements android.location.L
 
     @Override
     public void onLocationChanged(Location location) {
-        /** * 3,6 to put the speed in kilometers*/
-        vitesse = location.getSpeed();
-        vitesse = vitesse * (float) 3.6;
+        float new_vitesse = location.getSpeed();
+        new_vitesse = new_vitesse * (float) 3.6;
+
+        if (vitesse > new_vitesse) {
+            vit_flag = 1;
+        }
+
+        vitesse = new_vitesse;
 
         Log.d("speed", "speed"+ vitesse);
 
         gpsCallBack.onSpeedRecieved(vitesse);
     }
+
+
+
+
 
     @Override
     public void onStatusChanged(String s, int i, Bundle bundle) {
