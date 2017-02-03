@@ -36,6 +36,8 @@ public class HomeActivity extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        toolbar.setNavigationIcon(R.drawable.ic_menu);
+
         // Find our drawer view
         mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
