@@ -22,7 +22,7 @@ import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 
-import static android.content.Context.LOCATION_SERVICE;
+
 
 /**
  * Created by Annick on 03/02/2017.
@@ -33,13 +33,6 @@ public class FirstFragment extends Fragment {
     //Just textview
     TextView acceltxt;
     TextView gyrotxt;
-
-    //Sensor manager
-    private SensorManager mSensorManager;
-    private Sensor accelerometer;
-    private Sensor gyroscope;
-    // Location
-    private LocationManager locationManager;
 
     // Listener
     private GpsListener gpsListener;
@@ -54,15 +47,6 @@ public class FirstFragment extends Fragment {
 
         // Check permission
         ActivatePermissions();
-
-        //Register
-        mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
-        accelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        gyroscope = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
-
-        // Lance le service de localisation
-        locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
-
     }
 
     public static FirstFragment newInstance(int instance) {
@@ -97,34 +81,20 @@ public class FirstFragment extends Fragment {
                 Log.d("capteur", "capteur: " + event);
             }
         });
-        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, gpsListener);
-
-
     }
 
 
     @Override
     public void onPause() {
-        mSensorManager.unregisterListener(gpsListener, accelerometer);
-        mSensorManager.unregisterListener(gpsListener, gyroscope);
+        //mSensorManager.unregisterListener(gpsListener, accelerometer);
+        //mSensorManager.unregisterListener(gpsListener, gyroscope);
         super.onPause();
     }
 
     @Override
     public void onResume() {
-        mSensorManager.registerListener(gpsListener, accelerometer, SensorManager.SENSOR_DELAY_UI);
-        mSensorManager.registerListener(gpsListener, gyroscope, SensorManager.SENSOR_DELAY_UI);
+        //mSensorManager.registerListener(gpsListener, accelerometer, SensorManager.SENSOR_DELAY_UI);
+        //mSensorManager.registerListener(gpsListener, gyroscope, SensorManager.SENSOR_DELAY_UI);
         super.onResume();
     }
 
