@@ -16,11 +16,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.mission.accidentdetection.R;
 
+
+
+
 public class HomeActivity extends AppCompatActivity {
+
     private DrawerLayout mDrawer;
     private Toolbar toolbar;
     private NavigationView nvDrawer;
     private ActionBarDrawerToggle drawerToggle;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
