@@ -74,8 +74,6 @@ public class FirstFragment extends Fragment {
         gyrotxt = (TextView)getActivity().findViewById(R.id.gyrotxtID);
 
         /** Using GPS */
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, gpsListener);
-
         gpsListener = new GpsListener(getContext(), new GpsListener.GpsCallBack() {
             @Override
             public void onSpeedRecieved(Float vitesse) {
@@ -87,6 +85,8 @@ public class FirstFragment extends Fragment {
                 Log.d("capteur", "capteur: "+event);
             }
         });
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, gpsListener);
+
 
     }
 
