@@ -1,5 +1,7 @@
 package android.mission.accidentdetection.Fragments;
 
+import android.location.LocationManager;
+import android.mission.accidentdetection.Listener.LocationListener;
 import android.mission.accidentdetection.R;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -17,6 +19,8 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
+import static android.content.Context.LOCATION_SERVICE;
+
 /**
  * Created by Annick on 03/02/2017.
  */
@@ -32,16 +36,21 @@ public class FirstFragment extends Fragment implements SensorEventListener {
     private Sensor accelerometer;
     private Sensor gyroscope;
 
+    // Location
+    private LocationManager locationManager;
+    private LocationListener locationListener;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
 
         //Register
         mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
         accelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         gyroscope = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+
+        // Lance le service de localisation
+        locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
     }
 
     public static FirstFragment newInstance(int instance) {
@@ -63,6 +72,11 @@ public class FirstFragment extends Fragment implements SensorEventListener {
 
         acceltxt = (TextView)getActivity().findViewById(R.id.acceltxtID);
         gyrotxt = (TextView)getActivity().findViewById(R.id.gyrotxtID);
+
+        /** Using GPS */
+        locationListener = new LocationListener(getContext());
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+
     }
 
 
