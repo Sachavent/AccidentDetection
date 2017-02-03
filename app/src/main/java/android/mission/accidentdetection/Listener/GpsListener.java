@@ -123,7 +123,7 @@ public class GpsListener extends AppCompatActivity implements android.location.L
         last_speed = new_vitesse;
 
         Log.d("speed", "speed"+ new_vitesse);
-        gpsCallBack.onSpeedRecieved((float)location.getLatitude());
+        gpsCallBack.onSpeedRecieved(new_vitesse);
     }
 
 
