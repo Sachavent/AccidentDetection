@@ -80,6 +80,11 @@ public class FirstFragment extends Fragment {
             public void onSensorEventRecieved(SensorEvent event) {
                 Log.d("capteur", "capteur: " + event);
             }
+
+            @Override
+            public void onChocEventRecieved(Float choc) {
+
+            }
         });
     }
 
