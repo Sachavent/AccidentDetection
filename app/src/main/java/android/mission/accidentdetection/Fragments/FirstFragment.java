@@ -2,21 +2,18 @@ package android.mission.accidentdetection.Fragments;
 
 import android.location.LocationManager;
 import android.mission.accidentdetection.Listener.LocationListener;
+import android.mission.accidentdetection.Listener.SensorListener;
 import android.mission.accidentdetection.R;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.util.Log;
 import android.widget.TextView;
 
 //Import for device sensors
 import android.content.Context;
 import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
 import static android.content.Context.LOCATION_SERVICE;
@@ -25,7 +22,7 @@ import static android.content.Context.LOCATION_SERVICE;
  * Created by Annick on 03/02/2017.
  */
 
-public class FirstFragment extends Fragment implements SensorEventListener {
+public class FirstFragment extends Fragment {
 
     //Just textview
     TextView acceltxt;
@@ -35,6 +32,7 @@ public class FirstFragment extends Fragment implements SensorEventListener {
     private SensorManager mSensorManager;
     private Sensor accelerometer;
     private Sensor gyroscope;
+    private SensorListener sensorListener;
 
     // Location
     private LocationManager locationManager;
@@ -51,6 +49,9 @@ public class FirstFragment extends Fragment implements SensorEventListener {
 
         // Lance le service de localisation
         locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
+        locationListener = new LocationListener(getContext());
+
+        sensorListener = new SensorListener();
     }
 
     public static FirstFragment newInstance(int instance) {
@@ -74,7 +75,6 @@ public class FirstFragment extends Fragment implements SensorEventListener {
         gyrotxt = (TextView)getActivity().findViewById(R.id.gyrotxtID);
 
         /** Using GPS */
-        locationListener = new LocationListener(getContext());
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
 
     }
@@ -82,35 +82,18 @@ public class FirstFragment extends Fragment implements SensorEventListener {
 
     @Override
     public void onPause() {
-        mSensorManager.unregisterListener(this, accelerometer);
-        mSensorManager.unregisterListener(this, gyroscope);
+        mSensorManager.unregisterListener(sensorListener, accelerometer);
+        mSensorManager.unregisterListener(sensorListener, gyroscope);
         super.onPause();
     }
 
     @Override
     public void onResume() {
-        mSensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
-        mSensorManager.registerListener(this, gyroscope, SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(sensorListener, accelerometer, SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(sensorListener, gyroscope, SensorManager.SENSOR_DELAY_UI);
         super.onResume();
     }
 
-    @Override
-    public void onSensorChanged(SensorEvent event) {
-        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER){
-            //If accelerometer data
-            acceltxt.setText("Accelerometer :\nx:"+event.values[0] + "\ny:" +event.values[1] + "\nz:" + event.values[2]);
-            //Log.d("accel","accelerometer : x:"+event.values[0] + "; y:" +event.values[1] + "; z:" + event.values[2]);
-        }else if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE){
-            //If gyro data
-            gyrotxt.setText("Gyrometer :\nx:"+event.values[0] + "\ny:" +event.values[1] + "\nz:" + event.values[2]);
-            //Log.d("gyro",event.values[0] + " " +event.values[1] + " " + event.values[2]);
-        }
-    }
-
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        // Do nothing here.
-    }
 
 
 }
