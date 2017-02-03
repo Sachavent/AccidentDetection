@@ -84,6 +84,8 @@ public class GpsListener extends AppCompatActivity implements android.location.L
             }
         }, 1000, 1000);
 
+        mSensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
+        mSensorManager.registerListener(this, gyroscope, SensorManager.SENSOR_DELAY_UI);
     }
 
     @Override
