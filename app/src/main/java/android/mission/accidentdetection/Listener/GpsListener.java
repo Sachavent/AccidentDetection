@@ -23,7 +23,7 @@ import java.util.Timer;
 public class GpsListener extends AppCompatActivity implements android.location.LocationListener, SensorEventListener {
 
     private Context contexte;
-    private float vitesse;
+    private float last_speed;
     GpsCallBack gpsCallBack;
 
     private int acc_flag = 0;
@@ -79,15 +79,14 @@ public class GpsListener extends AppCompatActivity implements android.location.L
         float new_vitesse = location.getSpeed();
         new_vitesse = new_vitesse * (float) 3.6;
 
-        if (vitesse > new_vitesse) {
+        if (last_speed > new_vitesse) {
             vit_flag = 1;
         }
 
-        vitesse = new_vitesse;
+        last_speed = new_vitesse;
 
-        Log.d("speed", "speed"+ vitesse);
-
-        gpsCallBack.onSpeedRecieved(vitesse);
+        Log.d("speed", "speed"+ new_vitesse);
+        gpsCallBack.onSpeedRecieved(new_vitesse);
     }
 
 

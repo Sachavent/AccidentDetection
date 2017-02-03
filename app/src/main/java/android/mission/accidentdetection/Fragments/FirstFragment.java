@@ -105,6 +105,4 @@ public class FirstFragment extends Fragment {
         super.onResume();
     }
 
-
-
 }
