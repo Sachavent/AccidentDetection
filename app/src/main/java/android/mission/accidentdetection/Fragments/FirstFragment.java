@@ -1,11 +1,16 @@
 package android.mission.accidentdetection.Fragments;
 
+import android.Manifest;
+import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.hardware.SensorEvent;
 import android.location.LocationManager;
 import android.mission.accidentdetection.Listener.GpsListener;
 import android.mission.accidentdetection.R;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,9 +44,16 @@ public class FirstFragment extends Fragment {
     // Listener
     private GpsListener gpsListener;
 
+    // Permission
+    private boolean permissionsEnabled;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Check permission
+        ActivatePermissions();
 
         //Register
         mSensorManager = (SensorManager) getActivity().getSystemService(Context.SENSOR_SERVICE);
@@ -70,21 +82,31 @@ public class FirstFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        acceltxt = (TextView)getActivity().findViewById(R.id.acceltxtID);
-        gyrotxt = (TextView)getActivity().findViewById(R.id.gyrotxtID);
+        acceltxt = (TextView) getActivity().findViewById(R.id.acceltxtID);
+        gyrotxt = (TextView) getActivity().findViewById(R.id.gyrotxtID);
 
         /** Using GPS */
         gpsListener = new GpsListener(getContext(), new GpsListener.GpsCallBack() {
             @Override
             public void onSpeedRecieved(Float vitesse) {
-                Log.d("vitesse", "vitesse: "+vitesse);
+                Log.d("vitesse", "vitesse: " + vitesse);
             }
 
             @Override
             public void onSensorEventRecieved(SensorEvent event) {
-                Log.d("capteur", "capteur: "+event);
+                Log.d("capteur", "capteur: " + event);
             }
         });
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, gpsListener);
 
 
@@ -103,6 +125,40 @@ public class FirstFragment extends Fragment {
         mSensorManager.registerListener(gpsListener, accelerometer, SensorManager.SENSOR_DELAY_UI);
         mSensorManager.registerListener(gpsListener, gyroscope, SensorManager.SENSOR_DELAY_UI);
         super.onResume();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case 10:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    permissionsEnabled = true;
+                } else {
+                    Log.d("test ", "position refusée");
+                    AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+                    alert.setMessage("Activating position permissions is mandatory");
+                    alert.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            ActivatePermissions();
+                        }
+                    });
+                    AlertDialog dialog = alert.create();
+                    dialog.show();
+                }
+
+        }
+    }
+
+    private void ActivatePermissions() {
+        if (permissionsEnabled != true) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.INTERNET,
+                    Manifest.permission.ACCESS_NETWORK_STATE
+            }, 10);
+        }
     }
 
 }
