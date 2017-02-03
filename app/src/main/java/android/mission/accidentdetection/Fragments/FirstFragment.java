@@ -50,17 +50,7 @@ public class FirstFragment extends Fragment {
 
         // Lance le service de localisation
         locationManager = (LocationManager) getActivity().getSystemService(LOCATION_SERVICE);
-        gpsListener = new GpsListener(getContext(), new GpsListener.GpsCallBack() {
-            @Override
-            public void onSpeedRecieved(Float vitesse) {
-                Log.d("vitesse", "vitesse: "+vitesse);
-            }
 
-            @Override
-            public void onSensorEventRecieved(SensorEvent event) {
-                Log.d("capteur", "capteur: "+event);
-            }
-        });
     }
 
     public static FirstFragment newInstance(int instance) {
@@ -86,8 +76,20 @@ public class FirstFragment extends Fragment {
         /** Using GPS */
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, gpsListener);
 
+        gpsListener = new GpsListener(getContext(), new GpsListener.GpsCallBack() {
+            @Override
+            public void onSpeedRecieved(Float vitesse) {
+                Log.d("vitesse", "vitesse: "+vitesse);
+            }
+
+            @Override
+            public void onSensorEventRecieved(SensorEvent event) {
+                Log.d("capteur", "capteur: "+event);
+            }
+        });
+
     }
-    
+
 
     @Override
     public void onPause() {
