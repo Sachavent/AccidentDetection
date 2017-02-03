@@ -1,6 +1,7 @@
 package android.mission.accidentdetection.Activity;
 
 import android.mission.accidentdetection.Fragments.FirstFragment;
+import android.mission.accidentdetection.Fragments.SecondFragment;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -66,9 +67,9 @@ public class HomeActivity extends AppCompatActivity {
             case R.id.nav_first_fragment:
                 fragmentClass = FirstFragment.class;
                 break;
-            /*case R.id.nav_second_fragment:
+            case R.id.nav_second_fragment:
                 fragmentClass = SecondFragment.class;
-                break;*/
+                break;
             default:
                 fragmentClass = FirstFragment.class;
         }
