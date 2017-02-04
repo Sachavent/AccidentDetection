@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.HashMap;
 import java.util.Hashtable;
 
 /**
@@ -42,7 +43,7 @@ public class SecondFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        Hashtable<String, String> contactList = new Hashtable<>();
+        HashMap<String, String> contactList = new HashMap<>();
         GetterContactsPhone getterContactsPhone = new GetterContactsPhone(getContext());
         contactList = getterContactsPhone.getAllContact();
 

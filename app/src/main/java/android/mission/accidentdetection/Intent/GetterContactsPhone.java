@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.provider.ContactsContract;
 
+import java.util.HashMap;
 import java.util.Hashtable;
 
 /**
@@ -15,8 +16,8 @@ public class GetterContactsPhone {
     public GetterContactsPhone(Context context) {
         this.context=context;
     }
-    public Hashtable<String,String> getAllContact() {
-        Hashtable<String,String> contactList = new Hashtable<>();
+    public HashMap<String,String> getAllContact() {
+        HashMap<String,String> contactList = new HashMap<>();
 
         Cursor phones = context.getApplicationContext().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,null,null, null);
         while (phones.moveToNext())
