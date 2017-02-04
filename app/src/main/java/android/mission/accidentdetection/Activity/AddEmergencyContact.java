@@ -6,6 +6,9 @@ import android.mission.accidentdetection.R;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.util.SparseBooleanArray;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.HashMap;
@@ -28,8 +31,15 @@ public class AddEmergencyContact extends AppCompatActivity {
 
 
         contactListView = (ListView) findViewById(R.id.listView_contacts);
-        ListViewAdapter adapter = new ListViewAdapter(contacts);
+        final ListViewAdapter adapter = new ListViewAdapter(contacts);
         contactListView.setAdapter(adapter);
 
+        contactListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d("test","result: "+adapter.getItem(i));
+            }
+        });
     }
+
 }
