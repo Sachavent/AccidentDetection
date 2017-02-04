@@ -33,8 +33,7 @@ public class SecondFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_second, container, false);
     }
@@ -42,11 +41,12 @@ public class SecondFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
+
         Hashtable<String, String> contactList = new Hashtable<>();
         GetterContactsPhone getterContactsPhone = new GetterContactsPhone(getContext());
-        contactList = getterContactsPhone.getAllContact();
+        /*contactList = getterContactsPhone.getAllContact();
 
-        Log.d("hashmap", "floriane: " + contactList.get("Floriane"));
+        Log.d("hashmap", "floriane: " + contactList.get("Floriane"));*/
 
     }
 }
