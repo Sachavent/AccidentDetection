@@ -74,9 +74,24 @@ public class GpsListener extends AppCompatActivity implements android.location.L
 
 
     public void calculChoc(float pwr) {
-        //Do Calculation every 1 sec
+        //Si l'accelrometre detecte un cho suffisament violent ( > a 20 m/s^2 )
         if (pwr > 20){
-            gpsCallBack.onChocEventRecieved((float)0.1);
+            
+            //On cherche une baisse de vitesse et la vitesse moyenne dans les 20 derniere mesure
+            int chocFlag = 0;
+            float vitmoy = 0;
+            for(int i = 0; i < 20-1; i++){
+                vitmoy += speed[i];
+                if (speed[i] > speed[i+1]){
+                    chocFlag = 1;
+                }
+            }
+            vitmoy = vitmoy/20;
+
+            //Si la vitesse moyenne est > a 10km/h et qu'il y a eu une baisse de vitesse entre deux mesure
+            if (vitmoy > 10 && chocFlag == 1){
+                gpsCallBack.onChocEventRecieved((float)0.1);
+            }
         }
     }
 
@@ -97,7 +112,6 @@ public class GpsListener extends AppCompatActivity implements android.location.L
 
                //If accelerometer data
                calculChoc(Math.abs(event.values[0]) + Math.abs(event.values[1]) + Math.abs(event.values[2]));
-
         }else if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE){
             //If gyro data
         }
