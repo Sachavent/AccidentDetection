@@ -5,17 +5,24 @@
     app:layout_collapseParallaxMultiplier="1.0"
     android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="coucou"
-        android:id="@+id/acceltxtID" />
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="35dp" />
 
     <TextView
-        android:text="yop!"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/gyrotxtID" />
+        android:text="0.00%"
+        android:id="@+id/percentageID"
+        android:textAppearance="@android:style/TextAppearance.Material.Display4"
+        android:fontFamily="sans-serif-light"
+        android:typeface="monospace"
+        android:textColor="@android:color/holo_blue_light"
+        android:textAlignment="center" />
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="24dp" />
 
     <LinearLayout
         android:orientation="horizontal"

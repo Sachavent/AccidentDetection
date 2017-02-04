@@ -37,8 +37,7 @@ import java.util.Random;
 public class FirstFragment extends Fragment {
 
     //Just textview
-    TextView acceltxt;
-    TextView gyrotxt;
+    TextView percentage;
     ImageView egg;
 
     // Listener
@@ -73,8 +72,7 @@ public class FirstFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-        acceltxt = (TextView) getActivity().findViewById(R.id.acceltxtID);
-        gyrotxt = (TextView) getActivity().findViewById(R.id.gyrotxtID);
+        percentage = (TextView) getActivity().findViewById(R.id.percentageID);
         egg = (ImageView) getActivity().findViewById(R.id.eggimgID);
 
         /** Using GPS */
@@ -96,7 +94,7 @@ public class FirstFragment extends Fragment {
             @Override
             public void onChocEventRecieved(Float AccidentProba) {
 
-                acceltxt.setText("Probabilitée d'accident : " + Math.floor(AccidentProba * 100) / 100  +"%");
+                percentage.setText("Probabilitée d'accident : " + Math.floor(AccidentProba * 100) / 100  +"%");
 
                 //If AccidentProba is hight
                 if(AccidentProba >  50) {
@@ -121,14 +119,17 @@ public class FirstFragment extends Fragment {
 
             @Override
             public void onWarningEventRecieved(Float AccidentProba) {
-                acceltxt.setText("Probabilitée d'accident : " + Math.floor(AccidentProba * 100) / 100  +"%");
-                gyrotxt.setText("WARNING GPS data are more that 30sec old /!\\");
+                percentage.setText(Math.floor(AccidentProba * 100) / 100  +"%");
+                //gyrotxt.setText("WARNING GPS data are more that 30sec old /!\\");
+
+                //Show toast
+                CharSequence text = "GPS data are more that 30sec old";
+                int duration = Toast.LENGTH_SHORT;
+                Toast toast = Toast.makeText(getContext(), text, duration);
+                toast.show();
 
                 Random rand = new Random();
                 int n = rand.nextInt(3)-1;
-                /*Matrix matrix = new Matrix();
-                egg.setScaleType(ImageView.ScaleType.FIT_CENTER);   //required
-                matrix.postRotate((float) 80, 0, 0);*/
                 egg.setRotation(n*AccidentProba*5);
             }
 
