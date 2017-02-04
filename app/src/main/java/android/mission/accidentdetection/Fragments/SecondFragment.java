@@ -41,12 +41,13 @@ public class SecondFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
-
+        /*
         Hashtable<String, String> contactList = new Hashtable<>();
         GetterContactsPhone getterContactsPhone = new GetterContactsPhone(getContext());
-        /*contactList = getterContactsPhone.getAllContact();
+        contactList = getterContactsPhone.getAllContact();
 
-        Log.d("hashmap", "floriane: " + contactList.get("Floriane"));*/
+        Log.d("hashmap", "floriane: " + contactList.get("Floriane"));
+        */
 
     }
 }

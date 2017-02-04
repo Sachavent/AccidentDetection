@@ -99,10 +99,11 @@ public class GpsListener extends AppCompatActivity implements android.location.L
         AccidentProba = chocDif * AccidentProba;
 
         //If the last location mesure is less than 30sec old
-        if (timeLastLocationData > (System.currentTimeMillis() + 30) ){
+        if (timeLastLocationData > ((int)(System.currentTimeMillis()/1000) + 30) ){
+            //All is good go to the right callback
             gpsCallBack.onChocEventRecieved(AccidentProba);
         }else{
-            //Show a not releavent message
+            //Show a not relevent message
             gpsCallBack.onWarningEventRecieved(AccidentProba);
         }
 
