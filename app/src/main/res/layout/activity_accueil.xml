@@ -34,10 +34,16 @@
             android:onClick="btn_lauch_home_activity"
             android:layout_below="@+id/textView"
             android:text="welcome"
+            android:background="@drawable/round_button"
+            android:textColor="#FFFFFF"
             android:layout_alignParentStart="true"
             android:layout_marginTop="167dp"
             android:layout_alignParentEnd="true"
             android:layout_weight="0.13" />
+
+
+
+
     </LinearLayout>
 
 </RelativeLayout>
