@@ -40,7 +40,8 @@ public class GpsListener extends AppCompatActivity implements android.location.L
 
     // Location
     private LocationManager locationManager;
-    private float speed[];
+    private int timeLastLocationData;
+    private float speed[]= {0,0,0,0,0,0,0,0,0,0};
     private int currentSpeed = 0;
 
     public GpsListener(Context context, GpsCallBack gpsCallBack) {
@@ -74,8 +75,41 @@ public class GpsListener extends AppCompatActivity implements android.location.L
 
 
     public void calculChoc(float pwr) {
+
+        //if choc < 1 m/s^2 do nothing
+        if (pwr < 1) {return;}
+
+        float AccidentProba = 0;
+        AccidentProba = pwr/2;
+
+        //On cherche une baisse de vitesse et la vitesse moyenne dans les 20 derniere mesure
+        float chocDif = 1;
+        float vitmoy = 0;
+        for(int i = 0; i < 10-1; i++){
+            vitmoy += speed[i];
+            if (speed[i] > speed[i+1]){
+                float tmpChocDif = speed[i+1] - speed[i];
+                if(tmpChocDif > chocDif){
+                    chocDif = tmpChocDif;
+                }
+            }
+        }
+        vitmoy = vitmoy/20;
+
+        AccidentProba = chocDif * AccidentProba;
+
+        //If the last location mesure is less than 30sec old
+        if (timeLastLocationData > (System.currentTimeMillis() + 30) ){
+            gpsCallBack.onChocEventRecieved(AccidentProba);
+        }else{
+            //Show a not releavent message
+            gpsCallBack.onWarningEventRecieved(AccidentProba);
+        }
+
+
+
         //Si l'accelrometre detecte un cho suffisament violent ( > a 20 m/s^2 )
-        if (pwr > 20){
+        /*if (pwr > 20){
             
             //On cherche une baisse de vitesse et la vitesse moyenne dans les 20 derniere mesure
             int chocFlag = 0;
@@ -92,7 +126,8 @@ public class GpsListener extends AppCompatActivity implements android.location.L
             if (vitmoy > 10 && chocFlag == 1){
                 gpsCallBack.onChocEventRecieved((float)0.1);
             }
-        }
+        }*/
+
     }
 
 
@@ -127,9 +162,10 @@ public class GpsListener extends AppCompatActivity implements android.location.L
 
     @Override
     public void onLocationChanged(Location location) {
+        timeLastLocationData = (int)(System.currentTimeMillis()/1000);
         speed[currentSpeed] = location.getSpeed() * (float) 3.6;
         gpsCallBack.onSpeedRecieved(speed[currentSpeed]);
-        if (currentSpeed < 20) {
+        if (currentSpeed < 10) {
             currentSpeed++;
         }else{
             currentSpeed = 0;
@@ -182,6 +218,7 @@ public class GpsListener extends AppCompatActivity implements android.location.L
     public interface GpsCallBack {
         void onSpeedRecieved(Float vitesse);
         void onSensorEventRecieved (SensorEvent event);
-        void onChocEventRecieved(Float choc);
+        void onChocEventRecieved(Float AccidentProba);
+        void onWarningEventRecieved(Float AccidentProba);
     }
 }

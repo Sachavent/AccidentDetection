@@ -3,8 +3,10 @@ package android.mission.accidentdetection.Fragments;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
+import android.graphics.Matrix;
 import android.hardware.SensorEvent;
 import android.location.LocationManager;
+import android.mission.accidentdetection.Intent.SmsDeliever;
 import android.mission.accidentdetection.Listener.GpsListener;
 import android.mission.accidentdetection.R;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 //Import for device sensors
@@ -22,6 +25,8 @@ import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 
 /**
@@ -33,6 +38,7 @@ public class FirstFragment extends Fragment {
     //Just textview
     TextView acceltxt;
     TextView gyrotxt;
+    ImageView egg;
 
     // Listener
     private GpsListener gpsListener;
@@ -68,6 +74,7 @@ public class FirstFragment extends Fragment {
 
         acceltxt = (TextView) getActivity().findViewById(R.id.acceltxtID);
         gyrotxt = (TextView) getActivity().findViewById(R.id.gyrotxtID);
+        egg = (ImageView) getActivity().findViewById(R.id.eggimgID);
 
         /** Using GPS */
         gpsListener = new GpsListener(getContext(), new GpsListener.GpsCallBack() {
@@ -86,13 +93,42 @@ public class FirstFragment extends Fragment {
             }
 
             @Override
-            public void onChocEventRecieved(Float choc) {
-                CharSequence text = "BOUM ! t'est mort :D";
-                int duration = Toast.LENGTH_SHORT;
+            public void onChocEventRecieved(Float AccidentProba) {
 
-                Toast toast = Toast.makeText(getContext(), text, duration);
-                toast.show();
+                acceltxt.setText("Probabilitée d'accident : " + Math.floor(AccidentProba * 100) / 100  +"%");
+
+                //If AccidentProba is hight
+                if(AccidentProba >  50) {
+
+                    //Show toast
+                    CharSequence text = "BOUM ! t'est mort :D";
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(getContext(), text, duration);
+                    toast.show();
+
+                    //Send emergence sms
+                    ArrayList<String> phoneNumber = new ArrayList<>();
+                    phoneNumber.add("0678681496");
+                    //phoneNumber.add("0667391286");
+                    String contacName = "Tanguy";
+
+                    String smsBody = contacName + " Viens d'avoir un terrible accident ! D:";
+                    SmsDeliever smsDeliever = new SmsDeliever(getContext(), phoneNumber, smsBody);
+                    smsDeliever.SendingMessage();
+                }
             }
+
+            @Override
+            public void onWarningEventRecieved(Float AccidentProba) {
+                acceltxt.setText("Probabilitée d'accident : " + Math.floor(AccidentProba * 100) / 100  +"%");
+                gyrotxt.setText("WARNING GPS data are more that 30sec old /!\\");
+                /*
+                Matrix matrix = new Matrix();
+                egg.setScaleType(ImageView.ScaleType.MATRIX);   //required
+                matrix.postRotate((float) AccidentProba, 0, 0);
+                egg.setImageMatrix(matrix);*/
+            }
+
         });
     }
 
