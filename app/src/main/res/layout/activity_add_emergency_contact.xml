@@ -10,9 +10,41 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="android.mission.accidentdetection.Activity.AddEmergencyContact">
 
-    <ListView
-        android:id="@+id/listView_contacts"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="34dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:text="Name"
+            android:ems="10"
+            android:id="@+id/editText" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="21dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"/>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="18dp" />
+
+        <ListView
+            android:id="@+id/listView_contacts"
+            android:layout_width="match_parent"
+            android:layout_height="446dp" />
+
+    </LinearLayout>
 
 </RelativeLayout>
