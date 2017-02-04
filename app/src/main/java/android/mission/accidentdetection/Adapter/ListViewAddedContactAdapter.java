@@ -2,6 +2,8 @@ package android.mission.accidentdetection.Adapter;
 
 import android.app.Activity;
 import android.mission.accidentdetection.R;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +43,7 @@ public class ListViewAddedContactAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         ContactViewHolder viewHolder;
 
         // Check if an existing view is being reused, otherwise inflate the view
@@ -67,6 +69,13 @@ public class ListViewAddedContactAdapter extends BaseAdapter {
 
         if (contact != null) {
             viewHolder.name.setText(contact);
+            viewHolder.icon.setBackgroundColor(ContextCompat.getColor(parent.getContext(),R.color.colorPrimaryDark));
+            viewHolder.icon.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Log.d("click", "clicked "+getItem(position));
+                }
+            });
         }
 
         return convertView;

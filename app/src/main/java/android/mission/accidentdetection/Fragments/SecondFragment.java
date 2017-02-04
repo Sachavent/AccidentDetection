@@ -96,7 +96,7 @@ public class SecondFragment extends Fragment {
 
         GetterContactsPhone getterContactsPhone = new GetterContactsPhone(getContext());
         contactList = getterContactsPhone.getAllContact();
-        
+
         //Log.d("hashmap", "floriane: " + contactList.get("Floriane"));
     }
 
