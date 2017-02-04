@@ -104,10 +104,6 @@ public class FirstFragment extends Fragment {
                     isCrack = true;
                     egg.setImageResource(R.drawable.newcrack);
 
-                    //Show toast
-                    totoast.setText("BOUM ! t'est mort :D");
-                    totoast.show();
-
                     //Send emergence sms
                     ArrayList<String> phoneNumber = new ArrayList<>();
                     phoneNumber.add("0678681496");
