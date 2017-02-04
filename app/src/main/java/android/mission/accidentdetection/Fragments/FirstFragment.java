@@ -192,7 +192,9 @@ public class FirstFragment extends Fragment {
         if (permissionsEnabled != true) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{
                     Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.INTERNET,
-                    Manifest.permission.ACCESS_NETWORK_STATE
+                    Manifest.permission.ACCESS_NETWORK_STATE,
+                    Manifest.permission.READ_CONTACTS,
+                    Manifest.permission.SEND_SMS
             }, 10);
         }
     }

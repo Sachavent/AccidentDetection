@@ -52,6 +52,19 @@ public class HomeActivity extends AppCompatActivity {
         nvDrawer = (NavigationView) findViewById(R.id.nvView);
         // Setup drawer view
         setupDrawerContent(nvDrawer);
+
+        /**Loading first fragment by default */
+        // Insert the fragment by replacing any existing fragment
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment fragment = null;
+        try {
+            fragment =FirstFragment.class.newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
