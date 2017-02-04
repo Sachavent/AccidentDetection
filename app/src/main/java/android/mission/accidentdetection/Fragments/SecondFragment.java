@@ -54,12 +54,18 @@ public class SecondFragment extends Fragment {
             }
         });
 
+        /*
         HashMap<String, String> contactList = new HashMap<>();
+
+        Hashtable<String, String> contactList = new Hashtable<>();
 
         GetterContactsPhone getterContactsPhone = new GetterContactsPhone(getContext());
         contactList = getterContactsPhone.getAllContact();
 
         Log.d("hashmap", "floriane: " + contactList.get("Floriane"));
+
+        */
+
 
     }
 

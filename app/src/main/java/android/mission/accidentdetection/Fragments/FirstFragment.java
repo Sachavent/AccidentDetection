@@ -37,6 +37,7 @@ public class FirstFragment extends Fragment {
     //Just textview
     TextView percentage;
     ImageView egg;
+    Toast totoast;
 
     // Listener
     private GpsListener gpsListener;
@@ -73,6 +74,7 @@ public class FirstFragment extends Fragment {
         percentage = (TextView) getActivity().findViewById(R.id.percentageID);
         egg = (ImageView) getActivity().findViewById(R.id.eggimgID);
         egg.setImageResource(R.drawable.egg);
+        totoast = Toast.makeText(getContext(), "", Toast.LENGTH_SHORT);
         isCrack = false;
 
         /** Using GPS */
@@ -103,10 +105,8 @@ public class FirstFragment extends Fragment {
                     egg.setImageResource(R.drawable.newcrack);
 
                     //Show toast
-                    CharSequence text = "BOUM ! t'est mort :D";
-                    int duration = Toast.LENGTH_SHORT;
-                    Toast toast = Toast.makeText(getContext(), text, duration);
-                    toast.show();
+                    totoast.setText("BOUM ! t'est mort :D");
+                    totoast.show();
 
                     //Send emergence sms
                     ArrayList<String> phoneNumber = new ArrayList<>();
@@ -128,10 +128,8 @@ public class FirstFragment extends Fragment {
                     percentage.setText(Math.floor(AccidentProba * 10) / 10 + "%");
 
                     //Show toast
-                    CharSequence text = "GPS data are more that 30sec old";
-                    int duration = Toast.LENGTH_SHORT;
-                    Toast toast = Toast.makeText(getContext(), text, duration);
-                    toast.show();
+                    totoast.setText("GPS data are more that 30sec old");
+                    totoast.show();
 
                     Random rand = new Random();
                     int n = rand.nextInt(3) - 1;
@@ -151,6 +149,7 @@ public class FirstFragment extends Fragment {
 
     @Override
     public void onPause() {
+        totoast.cancel();
         //mSensorManager.unregisterListener(gpsListener, accelerometer);
         //mSensorManager.unregisterListener(gpsListener, gyroscope);
         super.onPause();
@@ -158,6 +157,7 @@ public class FirstFragment extends Fragment {
 
     @Override
     public void onResume() {
+        totoast.cancel();
         //mSensorManager.registerListener(gpsListener, accelerometer, SensorManager.SENSOR_DELAY_UI);
         //mSensorManager.registerListener(gpsListener, gyroscope, SensorManager.SENSOR_DELAY_UI);
         super.onResume();
