@@ -122,11 +122,11 @@ public class FirstFragment extends Fragment {
             public void onWarningEventRecieved(Float AccidentProba) {
                 acceltxt.setText("Probabilitée d'accident : " + Math.floor(AccidentProba * 100) / 100  +"%");
                 gyrotxt.setText("WARNING GPS data are more that 30sec old /!\\");
-                /*
+
                 Matrix matrix = new Matrix();
                 egg.setScaleType(ImageView.ScaleType.MATRIX);   //required
                 matrix.postRotate((float) AccidentProba, 0, 0);
-                egg.setImageMatrix(matrix);*/
+                egg.setImageMatrix(matrix);
             }
 
         });
