@@ -1,6 +1,8 @@
 package android.mission.accidentdetection.Fragments;
 
+import android.content.Intent;
 import android.database.Cursor;
+import android.mission.accidentdetection.Activity.AddEmergencyContact;
 import android.mission.accidentdetection.Intent.GetterContactsPhone;
 import android.mission.accidentdetection.R;
 import android.os.Bundle;
@@ -22,6 +24,7 @@ import java.util.Hashtable;
 public class SecondFragment extends Fragment {
 
     private Button butonAddContact;
+    private HashMap<String, String> contactList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -54,22 +57,23 @@ public class SecondFragment extends Fragment {
             }
         });
 
-        /*
-        HashMap<String, String> contactList = new HashMap<>();
-
-        Hashtable<String, String> contactList = new Hashtable<>();
 
         GetterContactsPhone getterContactsPhone = new GetterContactsPhone(getContext());
         contactList = getterContactsPhone.getAllContact();
 
-        Log.d("hashmap", "floriane: " + contactList.get("Floriane"));
+        //Log.d("hashmap", "floriane: " + contactList.get("Floriane"));
 
-        */
 
 
     }
 
+    /**
+     * Launching Activity to add emergency contact
+     * */
+
     public void btn_add_urgent_contact() {
-        Log.d("btn", "onclick");
+        Intent intent_add_contact = new Intent(getContext(), AddEmergencyContact.class);
+        intent_add_contact.putExtra("hashmap_contact", contactList);
+        startActivity(intent_add_contact);
     }
 }
