@@ -3,9 +3,7 @@ package android.mission.accidentdetection.Fragments;
 import android.Manifest;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.graphics.Matrix;
 import android.hardware.SensorEvent;
-import android.location.LocationManager;
 import android.mission.accidentdetection.Intent.SmsDeliever;
 import android.mission.accidentdetection.Listener.GpsListener;
 import android.mission.accidentdetection.R;
@@ -21,9 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 //Import for device sensors
-import android.content.Context;
 import android.hardware.Sensor;
-import android.hardware.SensorManager;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -35,6 +31,8 @@ import java.util.Random;
  */
 
 public class FirstFragment extends Fragment {
+
+    private boolean isCrack = false;
 
     //Just textview
     TextView percentage;
@@ -74,6 +72,8 @@ public class FirstFragment extends Fragment {
 
         percentage = (TextView) getActivity().findViewById(R.id.percentageID);
         egg = (ImageView) getActivity().findViewById(R.id.eggimgID);
+        egg.setImageResource(R.drawable.egg);
+        isCrack = false;
 
         /** Using GPS */
         gpsListener = new GpsListener(getContext(), new GpsListener.GpsCallBack() {
@@ -94,10 +94,13 @@ public class FirstFragment extends Fragment {
             @Override
             public void onChocEventRecieved(Float AccidentProba) {
 
-                percentage.setText("Probabilitée d'accident : " + Math.floor(AccidentProba * 100) / 100  +"%");
+                if(!isCrack) {
+                    percentage.setText("Probabilitée d'accident : " + Math.floor(AccidentProba * 100) / 100  +"%");
+                }
 
-                //If AccidentProba is hight
-                if(AccidentProba >  50) {
+                if (AccidentProba > 5) {
+                    isCrack = true;
+                    egg.setImageResource(R.drawable.newcrack);
 
                     //Show toast
                     CharSequence text = "BOUM ! t'est mort :D";
@@ -108,29 +111,38 @@ public class FirstFragment extends Fragment {
                     //Send emergence sms
                     ArrayList<String> phoneNumber = new ArrayList<>();
                     phoneNumber.add("0678681496");
-                    //phoneNumber.add("0667391286");
+                    phoneNumber.add("0667391286");
                     String contacName = "Tanguy";
 
                     String smsBody = contacName + " Viens d'avoir un terrible accident ! D:";
                     SmsDeliever smsDeliever = new SmsDeliever(getContext(), phoneNumber, smsBody);
                     smsDeliever.SendingMessage();
                 }
+
             }
 
             @Override
             public void onWarningEventRecieved(Float AccidentProba) {
-                percentage.setText(Math.floor(AccidentProba * 100) / 100  +"%");
-                //gyrotxt.setText("WARNING GPS data are more that 30sec old /!\\");
 
-                //Show toast
-                CharSequence text = "GPS data are more that 30sec old";
-                int duration = Toast.LENGTH_SHORT;
-                Toast toast = Toast.makeText(getContext(), text, duration);
-                toast.show();
+                if(!isCrack) {
+                    percentage.setText(Math.floor(AccidentProba * 10) / 10 + "%");
 
-                Random rand = new Random();
-                int n = rand.nextInt(3)-1;
-                egg.setRotation(n*AccidentProba*5);
+                    //Show toast
+                    CharSequence text = "GPS data are more that 30sec old";
+                    int duration = Toast.LENGTH_SHORT;
+                    Toast toast = Toast.makeText(getContext(), text, duration);
+                    toast.show();
+
+                    Random rand = new Random();
+                    int n = rand.nextInt(3) - 1;
+                    egg.setRotation(n * AccidentProba * 5);
+                }
+
+                if (AccidentProba > 5) {
+                    isCrack = true;
+                    egg.setImageResource(R.drawable.newcrack);
+                }
+
             }
 
         });
