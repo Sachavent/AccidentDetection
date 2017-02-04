@@ -34,16 +34,15 @@ public class SecondFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_second, container, false);
     }
 
     public void onStart() {
         super.onStart();
-
         HashMap<String, String> contactList = new HashMap<>();
+
         GetterContactsPhone getterContactsPhone = new GetterContactsPhone(getContext());
         contactList = getterContactsPhone.getAllContact();
 
