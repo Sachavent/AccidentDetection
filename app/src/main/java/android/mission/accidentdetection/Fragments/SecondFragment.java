@@ -18,9 +18,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+
 import android.widget.EditText;
 
+import android.widget.ListView;
+
+
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
@@ -36,11 +42,12 @@ public class SecondFragment extends Fragment {
     private Button butonAddContact;
     private HashMap<String, String> contactList;
     private HashMap<String, String> contactsJustAdded;
+    private ListView contactAdded;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getAllEmergencyContacts();
     }
 
     public static SecondFragment newInstance(int instance) {
@@ -59,6 +66,21 @@ public class SecondFragment extends Fragment {
 
     public void onStart() {
         super.onStart();
+
+        /** Showing the list of emergency contact in the list view */
+        HashMap<String,String> contactsallreadyAdded = new HashMap<>();
+        contactsallreadyAdded = getAllEmergencyContacts();
+
+        ArrayList<String> nameofcontacts = new ArrayList<>();
+        for (Map.Entry<String,String> e : contactsallreadyAdded.entrySet()) {
+            nameofcontacts.add(e.getKey());
+        }
+
+        Log.d("lecture", "nameofcontacts: "+nameofcontacts);
+
+        contactAdded = (ListView) getActivity().findViewById(R.id.listView_Contactsaddded);
+        ArrayAdapter arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, nameofcontacts);
+        contactAdded.setAdapter(arrayAdapter);
 
         /** Button to add contact */
         butonAddContact = (Button) getActivity().findViewById(R.id.addContact);
