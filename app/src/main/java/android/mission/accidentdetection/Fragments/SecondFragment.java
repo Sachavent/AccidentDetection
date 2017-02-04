@@ -1,11 +1,18 @@
 package android.mission.accidentdetection.Fragments;
 
+import android.content.ContentResolver;
+import android.database.Cursor;
 import android.mission.accidentdetection.R;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import java.util.Hashtable;
 
 /**
  * Created by Annick on 03/02/2017.
@@ -44,6 +51,20 @@ public class SecondFragment extends Fragment {
 
         SmsDeliever smsDeliever = new SmsDeliever(getContext(), phoneNumber, smsBody);
         smsDeliever.SendingMessage();*/
+
+        Hashtable<String,String> contactList = new Hashtable<>();
+
+        
+        Cursor phones = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, null,null,null, null);
+        while (phones.moveToNext())
+        {
+            String name=phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+            String phoneNumber = phones.getString(phones.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+            contactList.put(name,phoneNumber);
+        }
+        phones.close();
+
+       Log.d("hashmap", "floriane: "+contactList.get("Floriane"));
 
     }
 }
