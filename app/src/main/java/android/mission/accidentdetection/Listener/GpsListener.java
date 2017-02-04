@@ -35,6 +35,8 @@ public class GpsListener extends AppCompatActivity implements android.location.L
     private SensorManager mSensorManager;
     private Sensor accelerometer;
     private Sensor gyroscope;
+    float gravity[] = {0,0,(float)9.81};
+
     // Location
     private LocationManager locationManager;
 
@@ -69,39 +71,49 @@ public class GpsListener extends AppCompatActivity implements android.location.L
         }
 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        mSensorManager.registerListener(this, accelerometer, 1000000);
+        mSensorManager.registerListener(this, gyroscope, 1000000);
 
         this.gpsCallBack = gpsCallBack;
-
-        t = new Timer();
-        t.scheduleAtFixedRate(new TimerTask() {
-            public void run() {
-                try{
-                    //Do Calculation every 1 sec
-                    //gpsCallBack.onChocEventRecieved(event);
-
-                }catch (Exception e) {
-                }
-            }
-        }, 1000, 1000);
-
-        mSensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_UI);
-        mSensorManager.registerListener(this, gyroscope, SensorManager.SENSOR_DELAY_UI);
     }
+
+
+    public void calculChoc() {
+        //Do Calculation every 1 sec
+        gpsCallBack.onChocEventRecieved((float)0.1);
+        Log.d("choc", "YOP");
+    }
+
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER){
-            //If accelerometer data
-            if (event.values[0]+event.values[1]+event.values[2] > 10){
+           if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER){
+
+               // alpha is calculated as t / (t + dT)
+               // with t, the low-pass filter's time-constant
+               // and dT, the event delivery rate
+               float alpha = (float)0.8;
+               gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0];
+               gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
+               gravity[2] = alpha * gravity[2] + (1 - alpha) * event.values[2];
+               float linear_acceleration[] = {
+                    event.values[0] - gravity[0],
+                    event.values[1] - gravity[1],
+                    event.values[2] - gravity[2]
+               };
+
+               //If accelerometer data
+            if (linear_acceleration[0]+linear_acceleration[1]+linear_acceleration[2] > 3){
                 acc_flag = 1;
+                calculChoc();
             }
-            Log.d("sensor", "Accelerometer :\nx:"+event.values[0] + "\ny:" +event.values[1] + "\nz:" + event.values[2]);
+            Log.d("sensor", "Accelerometer :\nx:"+linear_acceleration[0] + "\ny:" +linear_acceleration[1] + "\nz:" + linear_acceleration[2]);
         }else if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE){
             //If gyro data
             if (event.values[0]+event.values[1]+event.values[2] > 10){
                 gyr_flag = 1;
             }
-            Log.d("sensor",event.values[0] + " " +event.values[1] + " " + event.values[2]);
+            Log.d("sensor", "Gyrometer :\nx:"+event.values[0] + "\ny:" +event.values[1] + "\nz:" + event.values[2]);
         }
 
         /** Sending Event */

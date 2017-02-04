@@ -21,7 +21,7 @@ import android.widget.TextView;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
-
+import android.widget.Toast;
 
 
 /**
@@ -83,7 +83,11 @@ public class FirstFragment extends Fragment {
 
             @Override
             public void onChocEventRecieved(Float choc) {
+                CharSequence text = "BOUM ! t'est mort :D";
+                int duration = Toast.LENGTH_SHORT;
 
+                Toast toast = Toast.makeText(getContext(), text, duration);
+                toast.show();
             }
         });
     }
