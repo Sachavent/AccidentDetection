@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_accueil"
     android:layout_width="match_parent"
@@ -10,18 +11,33 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="android.mission.accidentdetection.Activity.AccueilActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Hello World!" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:weightSum="1">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="btn_lauch_home_activity"
-        android:layout_below="@+id/textView"
-        android:text="welcome"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="167dp"
-        android:layout_alignParentEnd="true" />
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="60dp" />
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/logo"
+            android:id="@+id/imageView"
+            android:layout_weight="0.16" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="btn_lauch_home_activity"
+            android:layout_below="@+id/textView"
+            android:text="welcome"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="167dp"
+            android:layout_alignParentEnd="true"
+            android:layout_weight="0.13" />
+    </LinearLayout>
+
 </RelativeLayout>
