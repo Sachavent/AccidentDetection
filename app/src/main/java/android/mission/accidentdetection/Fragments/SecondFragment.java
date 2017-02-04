@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import java.util.HashMap;
 import java.util.Hashtable;
@@ -19,6 +20,8 @@ import java.util.Hashtable;
  */
 
 public class SecondFragment extends Fragment {
+
+    private Button butonAddContact;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -41,6 +44,16 @@ public class SecondFragment extends Fragment {
 
     public void onStart() {
         super.onStart();
+
+        /** Button to add contact */
+        butonAddContact = (Button) getActivity().findViewById(R.id.addContact);
+        butonAddContact.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                btn_add_urgent_contact();
+            }
+        });
+
         HashMap<String, String> contactList = new HashMap<>();
 
         GetterContactsPhone getterContactsPhone = new GetterContactsPhone(getContext());
@@ -48,5 +61,9 @@ public class SecondFragment extends Fragment {
 
         Log.d("hashmap", "floriane: " + contactList.get("Floriane"));
 
+    }
+
+    public void btn_add_urgent_contact() {
+        Log.d("btn", "onclick");
     }
 }
