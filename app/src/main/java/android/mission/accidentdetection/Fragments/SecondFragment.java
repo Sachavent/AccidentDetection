@@ -16,6 +16,7 @@ import android.widget.Button;
 
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -27,6 +28,8 @@ public class SecondFragment extends Fragment {
 
     private Button butonAddContact;
     private HashMap<String, String> contactList;
+    private HashMap<String, String> contactsAdded;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -84,7 +87,13 @@ public class SecondFragment extends Fragment {
         /** Recieve the emergency contact from AddEmergency Contact  */
         if (requestCode == 2000) {
             if (resultCode == RESULT_OK) {
-               Log.d("test", "retour second: "+data.getStringExtra("contact_urgent"));
+                contactsAdded = (HashMap<String, String>) data.getSerializableExtra("contact_urgent");
+
+                /** Getting the data of the user returned */
+                for (Map.Entry<String,String> e : contactsAdded.entrySet()) {
+                    Log.d("test", "retour second: "+e.getKey());
+                    Log.d("test", "retour second: "+e.getValue());
+                }
 
             }
         }

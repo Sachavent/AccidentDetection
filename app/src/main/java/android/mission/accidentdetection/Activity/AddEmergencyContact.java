@@ -16,7 +16,7 @@ import java.util.HashMap;
 public class AddEmergencyContact extends AppCompatActivity {
 
     private ListView contactListView;
-    private HashMap<String,String> contacts;
+    private HashMap<String, String> contacts;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,10 +25,7 @@ public class AddEmergencyContact extends AppCompatActivity {
 
         /** Getting contact list from Second Fragment */
         Intent intent = getIntent();
-        contacts = (HashMap<String, String>)intent.getSerializableExtra("hashmap_contact");
-
-        Log.d("hashmap", "floriane: " + contacts.get("Floriane"));
-
+        contacts = (HashMap<String, String>) intent.getSerializableExtra("hashmap_contact");
 
         contactListView = (ListView) findViewById(R.id.listView_contacts);
         final ListViewAdapter adapter = new ListViewAdapter(contacts);
@@ -37,10 +34,15 @@ public class AddEmergencyContact extends AppCompatActivity {
         contactListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.d("test","result: "+adapter.getItem(i));
-                 /** Sending the emergency contact added to Second Fragment*/
+                Log.d("test", "result: " + adapter.getItem(i));
+
+                /**Creating Hashmap to return */
+                HashMap<String,String> contactAdded = new HashMap<String, String>();
+                contactAdded.put(adapter.getItem(i).getKey(), adapter.getItem(i).getValue());
+
+                /** Sending the emergency contact added to Second Fragment*/
                 Intent intent = new Intent();
-                intent.putExtra("contact_urgent", "okay");
+                intent.putExtra("contact_urgent", contactAdded);
                 setResult(RESULT_OK, intent);
 
                 finish();
