@@ -32,12 +32,14 @@ public class SecondFragment extends Fragment {
 
     private Button butonAddContact;
     private HashMap<String, String> contactList;
-    private HashMap<String, String> contactsAdded;
+    private HashMap<String, String> contactsJustAdded;
+
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getAllEmergencyContacts();
     }
 
     public static SecondFragment newInstance(int instance) {
@@ -91,10 +93,10 @@ public class SecondFragment extends Fragment {
         /** Recieve the emergency contact from AddEmergency Contact  */
         if (requestCode == 2000) {
             if (resultCode == RESULT_OK) {
-                contactsAdded = (HashMap<String, String>) data.getSerializableExtra("contact_urgent");
+                contactsJustAdded = (HashMap<String, String>) data.getSerializableExtra("contact_urgent");
 
                 /** Getting the data of the user returned */
-                for (Map.Entry<String,String> e : contactsAdded.entrySet()) {
+                for (Map.Entry<String,String> e : contactsJustAdded.entrySet()) {
 
                     /**Saving User in the database */
                     Log.d("result", "result: "+insertEmergencyContact (e.getKey(), e.getValue()));
@@ -116,4 +118,17 @@ public class SecondFragment extends Fragment {
         Uri result = getActivity().getContentResolver().insert(android.mission.accidentdetection.Provider.ContentProvider.CONTENT_URL, contentValues);
         return result;
     }
+
+    /**Getting all emergency contacts */
+    public HashMap<String,String> getAllEmergencyContacts() {
+        HashMap<String, String> contactsAllreadyAdded = new HashMap<>();
+        Cursor cursor = getActivity().getContentResolver().query(Uri.parse("content://android.mission.accidentdetection/elements/"), null, null, null, null);
+        while (cursor.moveToNext()) {
+            Log.d("result", "key: "+cursor.getString(1));
+            Log.d("result", "value: "+cursor.getString(2));
+            contactsAllreadyAdded.put(cursor.getString(1), cursor.getString(2));
+        }
+        return contactsAllreadyAdded;
+    }
+
 }
