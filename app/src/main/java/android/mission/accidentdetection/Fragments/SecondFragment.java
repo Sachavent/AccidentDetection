@@ -5,6 +5,8 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.mission.accidentdetection.Activity.AddEmergencyContact;
+import android.mission.accidentdetection.Adapter.ListViewAdapter;
+import android.mission.accidentdetection.Adapter.ListViewAddedContactAdapter;
 import android.mission.accidentdetection.Helper.DBHelper;
 import android.mission.accidentdetection.Intent.GetterContactsPhone;
 import android.mission.accidentdetection.R;
@@ -72,7 +74,7 @@ public class SecondFragment extends Fragment {
         Log.d("lecture", "nameofcontacts: "+nameofcontacts);
 
         contactAdded = (ListView) getActivity().findViewById(R.id.listView_Contactsaddded);
-        ArrayAdapter arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, nameofcontacts);
+        ListViewAddedContactAdapter arrayAdapter = new ListViewAddedContactAdapter(nameofcontacts);
         contactAdded.setAdapter(arrayAdapter);
 
         /** Button to add contact */
@@ -88,9 +90,6 @@ public class SecondFragment extends Fragment {
         GetterContactsPhone getterContactsPhone = new GetterContactsPhone(getContext());
         contactList = getterContactsPhone.getAllContact();
 
-
-
-        //Log.d("hashmap", "floriane: " + contactList.get("Floriane"));
     }
 
     /**
