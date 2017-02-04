@@ -14,13 +14,19 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+
+import android.widget.EditText;
+
 import android.widget.ListView;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,6 +45,7 @@ public class SecondFragment extends Fragment {
     private HashMap<String, String> contactList;
     private HashMap<String, String> contactsJustAdded;
     private ListView contactAdded;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -89,7 +96,8 @@ public class SecondFragment extends Fragment {
 
         GetterContactsPhone getterContactsPhone = new GetterContactsPhone(getContext());
         contactList = getterContactsPhone.getAllContact();
-
+        
+        //Log.d("hashmap", "floriane: " + contactList.get("Floriane"));
     }
 
     /**

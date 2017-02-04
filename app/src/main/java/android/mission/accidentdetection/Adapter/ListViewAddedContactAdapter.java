@@ -53,6 +53,7 @@ public class ListViewAddedContactAdapter extends BaseAdapter {
             // well set up the ViewHolder
             viewHolder = new ContactViewHolder();
             viewHolder.name = (TextView) convertView.findViewById(R.id.nameContactAdded);
+            viewHolder.icon = (ImageView) convertView.findViewById(R.id.corbeille);
 
             // store the holder with the view.
             convertView.setTag(viewHolder);
@@ -74,6 +75,6 @@ public class ListViewAddedContactAdapter extends BaseAdapter {
 
     private class ContactViewHolder{
         public TextView name;
-        //public ImageView icon;
+        public ImageView icon;
     }
 }
