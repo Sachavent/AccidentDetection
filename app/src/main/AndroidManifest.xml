@@ -26,6 +26,9 @@
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".Activity.AddEmergencyContact"></activity>
+        <provider
+            android:name=".Provider.ContentProvider"
+            android:authorities="android.mission.accidentdetection" />
     </application>
 
 </manifest>

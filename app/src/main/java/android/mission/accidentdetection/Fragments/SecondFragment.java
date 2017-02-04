@@ -1,10 +1,14 @@
 package android.mission.accidentdetection.Fragments;
 
+import android.content.ContentProvider;
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.mission.accidentdetection.Activity.AddEmergencyContact;
+import android.mission.accidentdetection.Helper.DBHelper;
 import android.mission.accidentdetection.Intent.GetterContactsPhone;
 import android.mission.accidentdetection.R;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v4.app.Fragment;
@@ -91,13 +95,25 @@ public class SecondFragment extends Fragment {
 
                 /** Getting the data of the user returned */
                 for (Map.Entry<String,String> e : contactsAdded.entrySet()) {
-                    Log.d("test", "retour second: "+e.getKey());
-                    Log.d("test", "retour second: "+e.getValue());
+
+                    /**Saving User in the database */
+                    Log.d("result", "result: "+insertEmergencyContact (e.getKey(), e.getValue()));
                 }
 
             }
         }
 
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    /**Saving Emergency Contact in the SQLite Database */
+    public Uri insertEmergencyContact (String name, String telephone) {
+        ContentValues contentValues = new ContentValues();
+
+        contentValues.put(DBHelper.COL_2, name);
+        contentValues.put(DBHelper.COL_3, telephone);
+
+        Uri result = getActivity().getContentResolver().insert(android.mission.accidentdetection.Provider.ContentProvider.CONTENT_URL, contentValues);
+        return result;
     }
 }
