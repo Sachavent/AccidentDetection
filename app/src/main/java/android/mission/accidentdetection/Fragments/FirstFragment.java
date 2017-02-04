@@ -27,6 +27,7 @@ import android.hardware.SensorManager;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 
 /**
@@ -123,10 +124,12 @@ public class FirstFragment extends Fragment {
                 acceltxt.setText("Probabilitée d'accident : " + Math.floor(AccidentProba * 100) / 100  +"%");
                 gyrotxt.setText("WARNING GPS data are more that 30sec old /!\\");
 
-                Matrix matrix = new Matrix();
-                egg.setScaleType(ImageView.ScaleType.MATRIX);   //required
-                matrix.postRotate((float) AccidentProba, 0, 0);
-                egg.setImageMatrix(matrix);
+                Random rand = new Random();
+                int n = rand.nextInt(3)-1;
+                /*Matrix matrix = new Matrix();
+                egg.setScaleType(ImageView.ScaleType.FIT_CENTER);   //required
+                matrix.postRotate((float) 80, 0, 0);*/
+                egg.setRotation(n*AccidentProba*5);
             }
 
         });
