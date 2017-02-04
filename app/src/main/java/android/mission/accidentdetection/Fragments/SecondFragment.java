@@ -17,6 +17,8 @@ import android.widget.Button;
 import java.util.HashMap;
 import java.util.Hashtable;
 
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Created by Annick on 03/02/2017.
  */
@@ -74,6 +76,19 @@ public class SecondFragment extends Fragment {
     public void btn_add_urgent_contact() {
         Intent intent_add_contact = new Intent(getContext(), AddEmergencyContact.class);
         intent_add_contact.putExtra("hashmap_contact", contactList);
-        startActivity(intent_add_contact);
+        startActivityForResult(intent_add_contact,2000);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        /** Recieve the emergency contact from AddEmergency Contact  */
+        if (requestCode == 2000) {
+            if (resultCode == RESULT_OK) {
+               Log.d("test", "retour second: "+data.getStringExtra("contact_urgent"));
+
+            }
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
     }
 }
