@@ -78,7 +78,11 @@ public class FirstFragment extends Fragment {
 
             @Override
             public void onSensorEventRecieved(SensorEvent event) {
-                Log.d("capteur", "capteur: " + event);
+                if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER){
+                    Log.d("sensor", "Accelerometer :\nx:" + event.values[0] + "\ny:" +event.values[1] + "\nz:" + event.values[2]);
+                }else if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE){
+                    Log.d("sensor", "Gyrometer :\nx:" + event.values[0] + "\ny:" +event.values[1] + "\nz:" + event.values[2]);
+                }
             }
 
             @Override

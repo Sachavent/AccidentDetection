@@ -30,6 +30,7 @@ import static android.content.Context.LOCATION_SERVICE;
 public class GpsListener extends AppCompatActivity implements android.location.LocationListener, SensorEventListener {
 
     private Context contexte;
+    GpsCallBack gpsCallBack;
 
     //Sensor manager
     private SensorManager mSensorManager;
@@ -39,14 +40,8 @@ public class GpsListener extends AppCompatActivity implements android.location.L
 
     // Location
     private LocationManager locationManager;
-
-    private float last_speed;
-    GpsCallBack gpsCallBack;
-
-    private int acc_flag = 0;
-    private int gyr_flag = 0;
-    private int vit_flag = 0;
-    private Timer t;
+    private float speed[];
+    private int currentSpeed = 0;
 
     public GpsListener(Context context, GpsCallBack gpsCallBack) {
         contexte = context;
@@ -71,24 +66,24 @@ public class GpsListener extends AppCompatActivity implements android.location.L
         }
 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-        mSensorManager.registerListener(this, accelerometer, 1000000);
-        mSensorManager.registerListener(this, gyroscope, 1000000);
+        mSensorManager.registerListener(this, accelerometer, 100000);
+        mSensorManager.registerListener(this, gyroscope, 100000);
 
         this.gpsCallBack = gpsCallBack;
     }
 
 
-    public void calculChoc() {
+    public void calculChoc(float pwr) {
         //Do Calculation every 1 sec
-        gpsCallBack.onChocEventRecieved((float)0.1);
-        Log.d("choc", "YOP");
+        if (pwr > 20){
+            gpsCallBack.onChocEventRecieved((float)0.1);
+        }
     }
 
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-           if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER){
-
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER){
                // alpha is calculated as t / (t + dT)
                // with t, the low-pass filter's time-constant
                // and dT, the event delivery rate
@@ -96,24 +91,15 @@ public class GpsListener extends AppCompatActivity implements android.location.L
                gravity[0] = alpha * gravity[0] + (1 - alpha) * event.values[0];
                gravity[1] = alpha * gravity[1] + (1 - alpha) * event.values[1];
                gravity[2] = alpha * gravity[2] + (1 - alpha) * event.values[2];
-               float linear_acceleration[] = {
-                    event.values[0] - gravity[0],
-                    event.values[1] - gravity[1],
-                    event.values[2] - gravity[2]
-               };
+               event.values[0] = event.values[0] - gravity[0];
+               event.values[1] = event.values[1] - gravity[1];
+               event.values[2] = event.values[2] - gravity[2];
 
                //If accelerometer data
-            if (linear_acceleration[0]+linear_acceleration[1]+linear_acceleration[2] > 3){
-                acc_flag = 1;
-                calculChoc();
-            }
-            Log.d("sensor", "Accelerometer :\nx:"+linear_acceleration[0] + "\ny:" +linear_acceleration[1] + "\nz:" + linear_acceleration[2]);
+               calculChoc(Math.abs(event.values[0]) + Math.abs(event.values[1]) + Math.abs(event.values[2]));
+
         }else if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE){
             //If gyro data
-            if (event.values[0]+event.values[1]+event.values[2] > 10){
-                gyr_flag = 1;
-            }
-            Log.d("sensor", "Gyrometer :\nx:"+event.values[0] + "\ny:" +event.values[1] + "\nz:" + event.values[2]);
         }
 
         /** Sending Event */
@@ -127,17 +113,13 @@ public class GpsListener extends AppCompatActivity implements android.location.L
 
     @Override
     public void onLocationChanged(Location location) {
-        float new_vitesse = location.getSpeed();
-        new_vitesse = new_vitesse * (float) 3.6;
-
-        if (last_speed > new_vitesse) {
-            vit_flag = 1;
+        speed[currentSpeed] = location.getSpeed() * (float) 3.6;
+        gpsCallBack.onSpeedRecieved(speed[currentSpeed]);
+        if (currentSpeed < 20) {
+            currentSpeed++;
+        }else{
+            currentSpeed = 0;
         }
-
-        last_speed = new_vitesse;
-
-        Log.d("speed", "speed"+ new_vitesse);
-        gpsCallBack.onSpeedRecieved(new_vitesse);
     }
 
 
