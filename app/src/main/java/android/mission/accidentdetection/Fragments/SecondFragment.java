@@ -41,10 +41,9 @@ public class SecondFragment extends Fragment {
 
     public void onStart() {
         super.onStart();
+        /*
         HashMap<String, String> contactList = new HashMap<>();
 
-
-        /*
         Hashtable<String, String> contactList = new Hashtable<>();
 
         GetterContactsPhone getterContactsPhone = new GetterContactsPhone(getContext());
