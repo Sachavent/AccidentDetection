@@ -1,11 +1,23 @@
 package android.mission.accidentdetection.Fragments;
 
+import android.app.Activity;
+import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.mission.accidentdetection.Intent.SmsDeliever;
 import android.mission.accidentdetection.R;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 /**
  * Created by Annick on 03/02/2017.
@@ -35,5 +47,15 @@ public class SecondFragment extends Fragment {
 
     public void onStart() {
         super.onStart();
+
+        /*ArrayList<String> phoneNumber = new ArrayList<>();
+        phoneNumber.add("0678681496");
+        phoneNumber.add("0667391286");
+
+        String smsBody = "Test envoie liste de contact";
+
+        SmsDeliever smsDeliever = new SmsDeliever(getContext(), phoneNumber, smsBody);
+        smsDeliever.SendingMessage();*/
+
     }
 }
