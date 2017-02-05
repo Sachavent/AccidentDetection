@@ -17,7 +17,7 @@
         android:textAppearance="@android:style/TextAppearance.Material.Display4"
         android:fontFamily="sans-serif-light"
         android:typeface="monospace"
-        android:textColor="@android:color/holo_blue_light"
+        android:textColor="@color/colorPrimary"
         android:textAlignment="center" />
 
     <TableRow
