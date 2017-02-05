@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.hardware.SensorEvent;
+import android.mission.accidentdetection.Helper.ActionEmergencyContactHelper;
 import android.mission.accidentdetection.Intent.SmsDeliever;
 import android.mission.accidentdetection.Listener.GpsListener;
 import android.mission.accidentdetection.R;
@@ -24,6 +25,8 @@ import android.hardware.Sensor;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 
@@ -104,9 +107,9 @@ public class FirstFragment extends Fragment {
             @Override
             public void onSensorEventRecieved(SensorEvent event) {
                 if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER){
-                    Log.d("sensor", "Accelerometer :\nx:" + event.values[0] + "\ny:" +event.values[1] + "\nz:" + event.values[2]);
+                    //Log.d("sensor", "Accelerometer :\nx:" + event.values[0] + "\ny:" +event.values[1] + "\nz:" + event.values[2]);
                 }else if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE){
-                    Log.d("sensor", "Gyrometer :\nx:" + event.values[0] + "\ny:" +event.values[1] + "\nz:" + event.values[2]);
+                    //Log.d("sensor", "Gyrometer :\nx:" + event.values[0] + "\ny:" +event.values[1] + "\nz:" + event.values[2]);
                 }
             }
 
@@ -119,21 +122,27 @@ public class FirstFragment extends Fragment {
                     Random rand = new Random();
                     int n = rand.nextInt(3) - 1;
                     egg.setRotation(n * AccidentProba * 5);
-                }
 
-                if (AccidentProba > 80) {
-                    isCrack = true;
-                    egg.setImageResource(R.drawable.newcrack);
+                    /** User got an accident */
+                    if (AccidentProba > 5) {
+                        isCrack = true;
+                        egg.setImageResource(R.drawable.newcrack);
 
-                    //Send emergence sms
-                    ArrayList<String> phoneNumber = new ArrayList<>();
-                    phoneNumber.add("0678681496");
-                    phoneNumber.add("0667391286");
-                    String contacName = "Tanguy";
+                        /**
+                         * Retrieve emergency contacts and sending message to them
+                         * */
+                        ArrayList<String> phoneNumber = new ArrayList<>();
+                        ActionEmergencyContactHelper actionEmergencyContactHelper = new ActionEmergencyContactHelper(getActivity().getApplicationContext());
+                        HashMap<String,String> emergencyContacts = actionEmergencyContactHelper.getAllEmergencyContacts();
 
-                    String smsBody = contacName + " Viens d'avoir un terrible accident ! D:";
-                    SmsDeliever smsDeliever = new SmsDeliever(getContext(), phoneNumber, smsBody);
-                    smsDeliever.SendingMessage();
+                        for (Map.Entry<String,String> e : emergencyContacts.entrySet()) {
+                            phoneNumber.add(e.getValue());
+                        }
+
+                        String smsBody = "Je viens d'avoir un accident";
+                        SmsDeliever smsDeliever = new SmsDeliever(getContext(), phoneNumber, smsBody);
+                        smsDeliever.SendingMessage();
+                    }
                 }
 
             }
@@ -151,11 +160,13 @@ public class FirstFragment extends Fragment {
                     Random rand = new Random();
                     int n = rand.nextInt(3) - 1;
                     egg.setRotation(n * AccidentProba * 5);
-                }
 
-                if (AccidentProba > 80) {
-                    isCrack = true;
-                    egg.setImageResource(R.drawable.newcrack);
+
+                    if (AccidentProba > 5) {
+                        isCrack = true;
+                        egg.setImageResource(R.drawable.newcrack);
+                    }
+
                 }
 
             }
