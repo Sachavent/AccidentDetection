@@ -41,7 +41,7 @@ public class GpsListener extends AppCompatActivity implements android.location.L
     // Location
     private LocationManager locationManager;
     private int timeLastLocationData;
-    private float speed[]= {0,0,0,0,0,0,0,0,0,0};
+    private float speed[]= {0,0,0};
     private int currentSpeed = 0;
 
     public GpsListener(Context context, GpsCallBack gpsCallBack) {
@@ -53,6 +53,7 @@ public class GpsListener extends AppCompatActivity implements android.location.L
         gyroscope = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
 
         // Lance le service de localisation
+        timeLastLocationData = (int)(System.currentTimeMillis()/1000);
         locationManager = (LocationManager) contexte.getSystemService(LOCATION_SERVICE);
 
         if (ActivityCompat.checkSelfPermission(contexte, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(contexte, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -83,23 +84,24 @@ public class GpsListener extends AppCompatActivity implements android.location.L
         AccidentProba = pwr/2;
 
         //On cherche une baisse de vitesse et la vitesse moyenne dans les 20 derniere mesure
-        float chocDif = 1;
+        float chocDif = 0;
         float vitmoy = 0;
-        for(int i = 0; i < 10-1; i++){
+        for(int i = 0; i < 2; i++){
             vitmoy += speed[i];
-            if (speed[i] > speed[i+1]){
-                float tmpChocDif = speed[i+1] - speed[i];
-                if(tmpChocDif > chocDif){
+            float tmpChocDif = speed[i+1] - speed[i];
+            if (tmpChocDif < 0) {
+                if (tmpChocDif < chocDif) {
                     chocDif = tmpChocDif;
                 }
             }
         }
         vitmoy = vitmoy/20;
 
-        AccidentProba = chocDif * AccidentProba;
+        Log.d("tttr",""+chocDif);
+        AccidentProba = ((Math.abs(chocDif)/2)+1) * AccidentProba;
 
         //If the last location mesure is less than 30sec old
-        if (timeLastLocationData > ((int)(System.currentTimeMillis()/1000) + 30) ){
+        if (timeLastLocationData > ((int)(System.currentTimeMillis()/1000) - 30) ){
             //All is good go to the right callback
             gpsCallBack.onChocEventRecieved(AccidentProba);
         }else{
@@ -145,7 +147,7 @@ public class GpsListener extends AppCompatActivity implements android.location.L
         speed[currentSpeed] = location.getSpeed() * (float) 3.6;
         gpsCallBack.onSpeedRecieved(speed[currentSpeed]);
 
-        if (currentSpeed < 9) {
+        if (currentSpeed < 2) {
             currentSpeed++;
         }else{
             currentSpeed = 0;

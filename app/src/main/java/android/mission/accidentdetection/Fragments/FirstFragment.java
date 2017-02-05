@@ -102,10 +102,14 @@ public class FirstFragment extends Fragment {
             public void onChocEventRecieved(Float AccidentProba) {
 
                 if(!isCrack) {
-                    percentage.setText("Probabilitée d'accident : " + Math.floor(AccidentProba * 100) / 100  +"%");
+                    percentage.setText((Math.floor(AccidentProba * 10) / 10)  +"%");
+
+                    Random rand = new Random();
+                    int n = rand.nextInt(3) - 1;
+                    egg.setRotation(n * AccidentProba * 5);
                 }
 
-                if (AccidentProba > 5) {
+                if (AccidentProba > 80) {
                     isCrack = true;
                     egg.setImageResource(R.drawable.newcrack);
 
@@ -137,7 +141,7 @@ public class FirstFragment extends Fragment {
                     egg.setRotation(n * AccidentProba * 5);
                 }
 
-                if (AccidentProba > 5) {
+                if (AccidentProba > 80) {
                     isCrack = true;
                     egg.setImageResource(R.drawable.newcrack);
                 }
