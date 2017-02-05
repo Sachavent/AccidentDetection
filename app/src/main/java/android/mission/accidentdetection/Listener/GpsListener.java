@@ -97,7 +97,7 @@ public class GpsListener extends AppCompatActivity implements android.location.L
         }
         vitmoy = vitmoy/20;
 
-        Log.d("tttr",""+chocDif);
+        //Log.d("tttr",""+chocDif);
         AccidentProba = ((Math.abs(chocDif)/2)+1) * AccidentProba;
 
         //If the last location mesure is less than 30sec old

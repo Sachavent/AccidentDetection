@@ -89,15 +89,15 @@ public class FirstFragment extends Fragment {
         gpsListener = new GpsListener(getContext(), new GpsListener.GpsCallBack() {
             @Override
             public void onSpeedRecieved(Float vitesse) {
-                Log.d("vitesse", "vitesse: " + vitesse);
+                //Log.d("vitesse", "vitesse: " + vitesse);
             }
 
             @Override
             public void onSensorEventRecieved(SensorEvent event) {
                 if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER){
-                    Log.d("sensor", "Accelerometer :\nx:" + event.values[0] + "\ny:" +event.values[1] + "\nz:" + event.values[2]);
+                    //Log.d("sensor", "Accelerometer :\nx:" + event.values[0] + "\ny:" +event.values[1] + "\nz:" + event.values[2]);
                 }else if (event.sensor.getType() == Sensor.TYPE_GYROSCOPE){
-                    Log.d("sensor", "Gyrometer :\nx:" + event.values[0] + "\ny:" +event.values[1] + "\nz:" + event.values[2]);
+                   // Log.d("sensor", "Gyrometer :\nx:" + event.values[0] + "\ny:" +event.values[1] + "\nz:" + event.values[2]);
                 }
             }
 
