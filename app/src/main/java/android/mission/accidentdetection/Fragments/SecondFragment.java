@@ -27,6 +27,8 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import android.widget.ListView;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 
 import java.util.ArrayList;
@@ -35,6 +37,7 @@ import java.util.Hashtable;
 import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
+import static android.mission.accidentdetection.R.id.textView;
 
 /**
  * Created by Annick on 03/02/2017.
@@ -48,6 +51,8 @@ public class SecondFragment extends Fragment {
     private ListView contactAdded;
     private ActionEmergencyContactHelper actionEmergencyContactHelper;
 
+    SeekBar seekbar;
+    TextView seekper;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -102,7 +107,29 @@ public class SecondFragment extends Fragment {
         GetterContactsPhone getterContactsPhone = new GetterContactsPhone(getContext());
         contactList = getterContactsPhone.getAllContact();
 
-        //Log.d("hashmap", "floriane: " + contactList.get("Floriane"));
+        seekper = (TextView) getActivity().findViewById(R.id.seekperID);
+        seekbar = (SeekBar) getActivity().findViewById(R.id.detectparamID);
+        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress,boolean fromUser) {
+                // TODO Auto-generated method stub
+                seekper.setText(progress+"%");
+            }
+        });
+
+
+
     }
 
     /**

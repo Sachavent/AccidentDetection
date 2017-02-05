@@ -39,7 +39,7 @@ public class FirstFragment extends Fragment {
     TextView percentage;
     ImageView egg;
     Toast totoast;
-    SeekBar seekbar;
+
     TextView speedtxt;
     ImageView speedimg;
 
@@ -80,7 +80,7 @@ public class FirstFragment extends Fragment {
         egg.setImageResource(R.drawable.egg);
         totoast = Toast.makeText(getContext(), "", Toast.LENGTH_SHORT);
         isCrack = false;
-        seekbar = (SeekBar) getActivity().findViewById(R.id.detectparamID);
+
         speedtxt = (TextView) getActivity().findViewById(R.id.speedID);
         speedimg = (ImageView) getActivity().findViewById(R.id.speedimgID);
 
