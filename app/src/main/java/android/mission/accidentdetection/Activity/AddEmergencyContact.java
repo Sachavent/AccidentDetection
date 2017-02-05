@@ -42,7 +42,7 @@ public class AddEmergencyContact extends AppCompatActivity {
         contactListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                //Log.d("test", "result: " + adapter.getItem(i));
+                Log.d("test", "result: " + adapter.getItem(i));
 
                 /**Creating Hashmap to return */
                 HashMap<String,String> contactAdded = new HashMap<String, String>();

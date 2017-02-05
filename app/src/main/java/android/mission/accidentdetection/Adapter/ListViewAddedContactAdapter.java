@@ -1,6 +1,7 @@
 package android.mission.accidentdetection.Adapter;
 
 import android.app.Activity;
+import android.mission.accidentdetection.Helper.ActionEmergencyContactHelper;
 import android.mission.accidentdetection.R;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
@@ -43,7 +44,7 @@ public class ListViewAddedContactAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
         ContactViewHolder viewHolder;
 
         // Check if an existing view is being reused, otherwise inflate the view
@@ -73,7 +74,13 @@ public class ListViewAddedContactAdapter extends BaseAdapter {
             viewHolder.icon.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Log.d("click", "clicked "+getItem(position));
+                    /** Deleting the emergency user selected from the bdd*/
+                    ActionEmergencyContactHelper actionEmergencyContactHelper = new ActionEmergencyContactHelper(parent.getContext());
+                    actionEmergencyContactHelper.deletingEmergencyContact(getItem(position).toString());
+
+                    /** Removing the user from the ArrayList */
+                    mData.remove(position);
+                    notifyDataSetChanged();
                 }
             });
         }

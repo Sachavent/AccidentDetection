@@ -9,6 +9,7 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.mission.accidentdetection.Helper.DBHelper;
 import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
 
 /**
@@ -59,7 +60,8 @@ public class ContentProvider extends android.content.ContentProvider {
                 // Permet de récupérer l'id de la colonne qu'on souhaite récupérer
                 String rowid = uri.getPathSegments().get(1);
                 queryBuilder.appendWhere(myDBHelper.COL_1 + "=" + rowid);
-            default: break;
+            default:
+                break;
         }
         Cursor cursor = queryBuilder.query(db, strings, s,
                 strings1, groupBy, having, s1);
@@ -71,8 +73,9 @@ public class ContentProvider extends android.content.ContentProvider {
     @Override
     public String getType(Uri uri) {
         switch (uriMatcher.match(uri)) {
-            case ALLROWS​: return
-                    "vdn.android.cursor.dir/vnd.paad.elemental";
+            case ALLROWS​:
+                return
+                        "vdn.android.cursor.dir/vnd.paad.elemental";
             case SINGLE_ROW​:
                 return "vdn.android.cursor.item/vnd.paad.elemental";
             default:
@@ -85,24 +88,47 @@ public class ContentProvider extends android.content.ContentProvider {
     public Uri insert(Uri uri, ContentValues contentValues) {
         SQLiteDatabase db = myDBHelper.getWritableDatabase();
 
-        String nullColumnHack=null;
+        String nullColumnHack = null;
 
         long id = db.insert(DBHelper.TABLE_NAME, nullColumnHack, contentValues);
         //si valeurs inseré
-        Log.d("creation","provider :"+id);
+        Log.d("creation", "provider :" + id);
         if (id > 1) {
             // construit l'uri de la ligne crée
-            Uri insertedId= ContentUris.withAppendedId(CONTENT_URL, id);
+            Uri insertedId = ContentUris.withAppendedId(CONTENT_URL, id);
             // Notifie le changement de données
-            getContext().getContentResolver().notifyChange(insertedId,null);
+            getContext().getContentResolver().notifyChange(insertedId, null);
             return insertedId;
         }
         return null;
     }
 
     @Override
-    public int delete(Uri uri, String s, String[] strings) {
-        return 0;
+    public int delete(Uri uri, String selection, String[] selectionArgs) {
+        //ouverture de la base de donnée
+        SQLiteDatabase db = myDBHelper.getWritableDatabase();
+        // si requete de ligne on limite les retours à la premiere ligne
+
+        switch (uriMatcher.match(uri)) {
+            case SINGLE_ROW​:
+                String rowId = uri.getPathSegments().get(1);
+                selection = DBHelper.COL_1 + "=" + rowId + (!TextUtils.isEmpty(selection) ? " AND (" + selection + ')' : "");
+
+            default:
+                break;
+        }
+
+        if (selection == null) {
+            selection = "1";
+        }
+
+        // On effectue la suppression
+        int deleteCount = db.delete(DBHelper.TABLE_NAME, selection, selectionArgs);
+
+        // Notifie le changement des données
+        getContext().getContentResolver().notifyChange(uri, null);
+
+        return deleteCount;
     }
 
     @Override

@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.mission.accidentdetection.Activity.AddEmergencyContact;
 import android.mission.accidentdetection.Adapter.ListViewAdapter;
 import android.mission.accidentdetection.Adapter.ListViewAddedContactAdapter;
+import android.mission.accidentdetection.Helper.ActionEmergencyContactHelper;
 import android.mission.accidentdetection.Helper.DBHelper;
 import android.mission.accidentdetection.Intent.GetterContactsPhone;
 import android.mission.accidentdetection.R;
@@ -45,6 +46,7 @@ public class SecondFragment extends Fragment {
     private HashMap<String, String> contactList;
     private HashMap<String, String> contactsJustAdded;
     private ListView contactAdded;
+    private ActionEmergencyContactHelper actionEmergencyContactHelper;
 
 
     @Override
@@ -69,9 +71,12 @@ public class SecondFragment extends Fragment {
     public void onStart() {
         super.onStart();
 
+        /** Call Action Emergency for all action on emergency contact*/
+        actionEmergencyContactHelper = new ActionEmergencyContactHelper(getContext());
+
         /** Showing the list of emergency contact in the list view */
         HashMap<String,String> contactsallreadyAdded = new HashMap<>();
-        contactsallreadyAdded = getAllEmergencyContacts();
+        contactsallreadyAdded = actionEmergencyContactHelper.getAllEmergencyContacts();
 
         ArrayList<String> nameofcontacts = new ArrayList<>();
         for (Map.Entry<String,String> e : contactsallreadyAdded.entrySet()) {
@@ -121,36 +126,12 @@ public class SecondFragment extends Fragment {
                 for (Map.Entry<String,String> e : contactsJustAdded.entrySet()) {
 
                     /**Saving User in the database */
-                    Log.d("result", "result: "+insertEmergencyContact (e.getKey(), e.getValue()));
+                    Log.d("result", "result: "+actionEmergencyContactHelper.insertEmergencyContact (e.getKey(), e.getValue()));
                 }
 
             }
         }
-
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    /**Saving Emergency Contact in the SQLite Database */
-    public Uri insertEmergencyContact (String name, String telephone) {
-        ContentValues contentValues = new ContentValues();
-
-        contentValues.put(DBHelper.COL_2, name);
-        contentValues.put(DBHelper.COL_3, telephone);
-
-        Uri result = getActivity().getContentResolver().insert(android.mission.accidentdetection.Provider.ContentProvider.CONTENT_URL, contentValues);
-        return result;
-    }
-
-    /**Getting all emergency contacts */
-    public HashMap<String,String> getAllEmergencyContacts() {
-        HashMap<String, String> contactsAllreadyAdded = new HashMap<>();
-        Cursor cursor = getActivity().getContentResolver().query(Uri.parse("content://android.mission.accidentdetection/elements/"), null, null, null, null);
-        while (cursor.moveToNext()) {
-            Log.d("result", "key: "+cursor.getString(1));
-            Log.d("result", "value: "+cursor.getString(2));
-            contactsAllreadyAdded.put(cursor.getString(1), cursor.getString(2));
-        }
-        return contactsAllreadyAdded;
     }
 
 }
