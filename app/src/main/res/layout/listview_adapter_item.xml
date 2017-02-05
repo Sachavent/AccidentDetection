@@ -37,7 +37,7 @@
         android:layout_below="@+id/text1"
         tools:text="Numero : 06 12 23 45 69"
         />
-
+    <!--
     <CheckBox android:id="@+id/checkbox"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -45,6 +45,6 @@
         android:layout_alignBottom="@+id/text2"
         android:layout_alignParentEnd="true"
         android:layout_marginEnd="28dp" />
-
+    -->
 
 </RelativeLayout>

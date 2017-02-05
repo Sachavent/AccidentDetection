@@ -22,8 +22,6 @@ public class AddEmergencyContact extends AppCompatActivity {
     private ListView contactListView;
     private ListView saveContactListView;
     private HashMap<String, String> contacts;
-    EditText search;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,32 +56,7 @@ public class AddEmergencyContact extends AppCompatActivity {
         });
 
 
-        search = (EditText) findViewById(R.id.search);
-        search.addTextChangedListener(new TextWatcher() {
 
-            @Override
-            public void afterTextChanged(Editable s) {}
-
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                contactListView = saveContactListView;
-                for (int i = 0; i < contactListView.getCount(); i++) {
-
-                    String nom = contactListView.getItemAtPosition(i).toString();
-
-                    if ( nom.toString().toLowerCase().contains(s.toString().toLowerCase()) ){
-                    }else{
-                        contactListView.removeViewInLayout(contactListView.getChildAt(i));
-                    }
-                }
-
-            }
-
-        });
 
 
 
