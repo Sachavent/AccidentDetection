@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 //Import for device sensors
@@ -38,6 +39,7 @@ public class FirstFragment extends Fragment {
     TextView percentage;
     ImageView egg;
     Toast totoast;
+    SeekBar seekbar;
 
     // Listener
     private GpsListener gpsListener;
@@ -76,6 +78,9 @@ public class FirstFragment extends Fragment {
         egg.setImageResource(R.drawable.egg);
         totoast = Toast.makeText(getContext(), "", Toast.LENGTH_SHORT);
         isCrack = false;
+        //seekbar = (SeekBar) getActivity().findViewById(R.id.detectparamID);
+        //seekbar.setMax(100);
+        //seekbar.setProgress(5);
 
         /** Using GPS */
         gpsListener = new GpsListener(getContext(), new GpsListener.GpsCallBack() {
