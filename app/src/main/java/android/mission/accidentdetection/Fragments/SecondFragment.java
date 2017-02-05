@@ -83,8 +83,6 @@ public class SecondFragment extends Fragment {
             nameofcontacts.add(e.getKey());
         }
 
-        Log.d("lecture", "nameofcontacts: "+nameofcontacts);
-
         contactAdded = (ListView) getActivity().findViewById(R.id.listView_Contactsaddded);
         ListViewAddedContactAdapter arrayAdapter = new ListViewAddedContactAdapter(nameofcontacts);
         contactAdded.setAdapter(arrayAdapter);

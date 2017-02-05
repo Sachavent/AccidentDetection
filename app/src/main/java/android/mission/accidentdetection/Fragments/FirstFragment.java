@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.hardware.SensorEvent;
+import android.mission.accidentdetection.Helper.ActionEmergencyContactHelper;
 import android.mission.accidentdetection.Intent.SmsDeliever;
 import android.mission.accidentdetection.Listener.GpsListener;
 import android.mission.accidentdetection.R;
@@ -24,6 +25,8 @@ import android.hardware.Sensor;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
 
 
@@ -109,17 +112,23 @@ public class FirstFragment extends Fragment {
                     egg.setRotation(n * AccidentProba * 5);
                 }
 
-                if (AccidentProba > 80) {
+                /** User got an accident */
+                if (AccidentProba > 5) {
                     isCrack = true;
                     egg.setImageResource(R.drawable.newcrack);
 
-                    //Send emergence sms
+                    /**
+                     * Retrieve emergency contacts and sending message to them
+                     * */
                     ArrayList<String> phoneNumber = new ArrayList<>();
-                    phoneNumber.add("0678681496");
-                    phoneNumber.add("0667391286");
-                    String contacName = "Tanguy";
+                    ActionEmergencyContactHelper actionEmergencyContactHelper = new ActionEmergencyContactHelper(getActivity().getApplicationContext());
+                    HashMap<String,String> emergencyContacts = actionEmergencyContactHelper.getAllEmergencyContacts();
 
-                    String smsBody = contacName + " Viens d'avoir un terrible accident ! D:";
+                    for (Map.Entry<String,String> e : emergencyContacts.entrySet()) {
+                        phoneNumber.add(e.getValue());
+                    }
+
+                    String smsBody = " Viens d'avoir un terrible accident ! D:";
                     SmsDeliever smsDeliever = new SmsDeliever(getContext(), phoneNumber, smsBody);
                     smsDeliever.SendingMessage();
                 }
