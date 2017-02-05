@@ -5,10 +5,12 @@ import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.hardware.SensorEvent;
 import android.mission.accidentdetection.Helper.ActionEmergencyContactHelper;
+import android.mission.accidentdetection.Helper.AltertDialogHelper;
 import android.mission.accidentdetection.Intent.SmsDeliever;
 import android.mission.accidentdetection.Listener.GpsListener;
 import android.mission.accidentdetection.R;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -42,7 +44,6 @@ public class FirstFragment extends Fragment {
     TextView percentage;
     ImageView egg;
     Toast totoast;
-    SeekBar seekbar;
 
     // Listener
     private GpsListener gpsListener;
@@ -50,6 +51,7 @@ public class FirstFragment extends Fragment {
     // Permission
     private boolean permissionsEnabled;
 
+    private boolean sendSMS;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -118,17 +120,33 @@ public class FirstFragment extends Fragment {
 
                         try {
 
-                            ArrayList<String> phoneNumber = new ArrayList<>();
-                            ActionEmergencyContactHelper actionEmergencyContactHelper = new ActionEmergencyContactHelper(getActivity().getApplicationContext());
-                            HashMap<String, String> emergencyContacts = actionEmergencyContactHelper.getAllEmergencyContacts();
+                            /** Creating an alertdialog to prevent the user that he has 60 secondss to cancel the operation */
+                            AltertDialogHelper altertDialogHelper = new AltertDialogHelper(getContext(), new AltertDialogHelper.AltertDialogCallback() {
+                                @Override
+                                public void onTimerFinish(boolean sendSMS) {
+                                    /** In case where the user got an accident*/
+                                    if (sendSMS == true) {
+                                        ArrayList<String> phoneNumber = new ArrayList<>();
+                                        ActionEmergencyContactHelper actionEmergencyContactHelper = new ActionEmergencyContactHelper(getActivity().getApplicationContext());
+                                        HashMap<String, String> emergencyContacts = actionEmergencyContactHelper.getAllEmergencyContacts();
 
-                            for (Map.Entry<String, String> e : emergencyContacts.entrySet()) {
-                                phoneNumber.add(e.getValue());
-                            }
+                                        for (Map.Entry<String, String> e : emergencyContacts.entrySet()) {
+                                            phoneNumber.add(e.getValue());
+                                        }
 
-                            String smsBody = "Je viens d'avoir un accident";
-                            SmsDeliever smsDeliever = new SmsDeliever(getContext(), phoneNumber, smsBody);
-                            smsDeliever.SendingMessage();
+                                        String smsBody = "Je viens d'avoir un accident";
+                                        SmsDeliever smsDeliever = new SmsDeliever(getContext(), phoneNumber, smsBody);
+                                        smsDeliever.SendingMessage();
+                                    }
+                                    /** Dans l'autre cas on reset l'oeuf*/
+                                    else {
+
+                                    }
+                                }
+                            });
+                            altertDialogHelper.shouldISendMessage();
+
+
 
                         }catch (Exception e){
                             Log.d("error", "Erreur, sauver par le Try");
