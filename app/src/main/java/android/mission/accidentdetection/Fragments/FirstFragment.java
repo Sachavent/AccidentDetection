@@ -112,7 +112,7 @@ public class FirstFragment extends Fragment {
                     egg.setRotation(n * AccidentProba * 5);
 
                     /** User got an accident */
-                    if (AccidentProba > 5) {
+                    if (AccidentProba > 10) {
                         isCrack = true;
                         egg.setImageResource(R.drawable.newcrack);
 
