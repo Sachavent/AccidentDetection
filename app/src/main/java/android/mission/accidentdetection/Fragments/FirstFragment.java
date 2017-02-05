@@ -140,6 +140,8 @@ public class FirstFragment extends Fragment {
                                     }
                                     /** Dans l'autre cas on reset l'oeuf*/
                                     else {
+                                        isCrack = false;
+                                        egg.setImageResource(R.drawable.egg);
 
                                     }
                                 }
