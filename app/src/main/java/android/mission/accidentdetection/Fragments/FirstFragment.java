@@ -110,27 +110,27 @@ public class FirstFragment extends Fragment {
                     Random rand = new Random();
                     int n = rand.nextInt(3) - 1;
                     egg.setRotation(n * AccidentProba * 5);
-                }
 
-                /** User got an accident */
-                if (AccidentProba > 5) {
-                    isCrack = true;
-                    egg.setImageResource(R.drawable.newcrack);
+                    /** User got an accident */
+                    if (AccidentProba > 5) {
+                        isCrack = true;
+                        egg.setImageResource(R.drawable.newcrack);
 
-                    /**
-                     * Retrieve emergency contacts and sending message to them
-                     * */
-                    ArrayList<String> phoneNumber = new ArrayList<>();
-                    ActionEmergencyContactHelper actionEmergencyContactHelper = new ActionEmergencyContactHelper(getActivity().getApplicationContext());
-                    HashMap<String,String> emergencyContacts = actionEmergencyContactHelper.getAllEmergencyContacts();
+                        /**
+                         * Retrieve emergency contacts and sending message to them
+                         * */
+                        ArrayList<String> phoneNumber = new ArrayList<>();
+                        ActionEmergencyContactHelper actionEmergencyContactHelper = new ActionEmergencyContactHelper(getActivity().getApplicationContext());
+                        HashMap<String,String> emergencyContacts = actionEmergencyContactHelper.getAllEmergencyContacts();
 
-                    for (Map.Entry<String,String> e : emergencyContacts.entrySet()) {
-                        phoneNumber.add(e.getValue());
+                        for (Map.Entry<String,String> e : emergencyContacts.entrySet()) {
+                            phoneNumber.add(e.getValue());
+                        }
+
+                        String smsBody = "Je viens d'avoir un accident";
+                        SmsDeliever smsDeliever = new SmsDeliever(getContext(), phoneNumber, smsBody);
+                        smsDeliever.SendingMessage();
                     }
-
-                    String smsBody = "Je viens d'avoir un accident";
-                    SmsDeliever smsDeliever = new SmsDeliever(getContext(), phoneNumber, smsBody);
-                    smsDeliever.SendingMessage();
                 }
 
             }
@@ -148,11 +148,13 @@ public class FirstFragment extends Fragment {
                     Random rand = new Random();
                     int n = rand.nextInt(3) - 1;
                     egg.setRotation(n * AccidentProba * 5);
-                }
 
-                if (AccidentProba > 80) {
-                    isCrack = true;
-                    egg.setImageResource(R.drawable.newcrack);
+
+                    if (AccidentProba > 5) {
+                        isCrack = true;
+                        egg.setImageResource(R.drawable.newcrack);
+                    }
+
                 }
 
             }
