@@ -8,7 +8,7 @@
         android:id="@+id/listView_Contactsaddded"
         android:layout_width="match_parent"
         android:layout_marginTop="60dp"
-        android:layout_height="199dp" />
+        android:layout_height="300dp" />
 
     <Button
         android:id="@+id/addContact"
@@ -20,14 +20,14 @@
         android:layout_marginTop="10dp"
         android:textColor="#FFFFFF" />
 
-    <TableRow
+    <!--TableRow
         android:layout_width="match_parent"
         android:layout_height="23dp" />
 
     <SeekBar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/detectparamID" />
+        android:id="@+id/detectparamID" /-->
 
 
 </LinearLayout>

@@ -128,7 +128,7 @@ public class FirstFragment extends Fragment {
                         phoneNumber.add(e.getValue());
                     }
 
-                    String smsBody = " Viens d'avoir un terrible accident ! D:";
+                    String smsBody = "Je viens d'avoir un accident";
                     SmsDeliever smsDeliever = new SmsDeliever(getContext(), phoneNumber, smsBody);
                     smsDeliever.SendingMessage();
                 }
