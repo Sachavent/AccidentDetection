@@ -116,20 +116,23 @@ public class FirstFragment extends Fragment {
                         isCrack = true;
                         egg.setImageResource(R.drawable.newcrack);
 
-                        /**
-                         * Retrieve emergency contacts and sending message to them
-                         * */
-                        ArrayList<String> phoneNumber = new ArrayList<>();
-                        ActionEmergencyContactHelper actionEmergencyContactHelper = new ActionEmergencyContactHelper(getActivity().getApplicationContext());
-                        HashMap<String,String> emergencyContacts = actionEmergencyContactHelper.getAllEmergencyContacts();
+                        try {
 
-                        for (Map.Entry<String,String> e : emergencyContacts.entrySet()) {
-                            phoneNumber.add(e.getValue());
+                            ArrayList<String> phoneNumber = new ArrayList<>();
+                            ActionEmergencyContactHelper actionEmergencyContactHelper = new ActionEmergencyContactHelper(getActivity().getApplicationContext());
+                            HashMap<String, String> emergencyContacts = actionEmergencyContactHelper.getAllEmergencyContacts();
+
+                            for (Map.Entry<String, String> e : emergencyContacts.entrySet()) {
+                                phoneNumber.add(e.getValue());
+                            }
+
+                            String smsBody = "Je viens d'avoir un accident";
+                            SmsDeliever smsDeliever = new SmsDeliever(getContext(), phoneNumber, smsBody);
+                            smsDeliever.SendingMessage();
+
+                        }catch (Exception e){
+                            Log.d("error", "Erreur, sauver par le Try");
                         }
-
-                        String smsBody = "Je viens d'avoir un accident";
-                        SmsDeliever smsDeliever = new SmsDeliever(getContext(), phoneNumber, smsBody);
-                        smsDeliever.SendingMessage();
                     }
                 }
 
