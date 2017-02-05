@@ -40,6 +40,8 @@ public class FirstFragment extends Fragment {
     ImageView egg;
     Toast totoast;
     SeekBar seekbar;
+    TextView speedtxt;
+    ImageView speedimg;
 
     // Listener
     private GpsListener gpsListener;
@@ -78,7 +80,10 @@ public class FirstFragment extends Fragment {
         egg.setImageResource(R.drawable.egg);
         totoast = Toast.makeText(getContext(), "", Toast.LENGTH_SHORT);
         isCrack = false;
-        //seekbar = (SeekBar) getActivity().findViewById(R.id.detectparamID);
+        seekbar = (SeekBar) getActivity().findViewById(R.id.detectparamID);
+        speedtxt = (TextView) getActivity().findViewById(R.id.speedID);
+        speedimg = (ImageView) getActivity().findViewById(R.id.speedimgID);
+
         //seekbar.setMax(100);
         //seekbar.setProgress(5);
 
@@ -86,7 +91,14 @@ public class FirstFragment extends Fragment {
         gpsListener = new GpsListener(getContext(), new GpsListener.GpsCallBack() {
             @Override
             public void onSpeedRecieved(Float vitesse) {
-                Log.d("vitesse", "vitesse: " + vitesse);
+
+                speedtxt.setText(Math.round(vitesse) + " km/h");
+
+                if (vitesse > 15){
+                    speedimg.setImageResource(R.drawable.car);
+                }else{
+                    speedimg.setImageResource(R.drawable.walk);
+                }
             }
 
             @Override

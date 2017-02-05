@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
     app:layout_collapseParallaxMultiplier="1.0"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:weightSum="1">
 
     <TableRow
         android:layout_width="match_parent"
@@ -27,7 +28,7 @@
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="228dp">
 
         <ImageView
             android:layout_width="191dp"
@@ -35,6 +36,28 @@
             app:srcCompat="@drawable/egg"
             android:id="@+id/eggimgID"
             android:layout_weight="1" />
+
     </LinearLayout>
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+        <ImageView
+            android:id="@+id/speedimgID"
+            android:layout_width="64dp"
+            android:layout_height="46dp"
+            android:layout_marginLeft="20dp"
+            app:srcCompat="@drawable/walk" />
+
+        <TextView
+            android:text="0 km/h"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/speedID"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+    </TableRow>
 
 </LinearLayout>
