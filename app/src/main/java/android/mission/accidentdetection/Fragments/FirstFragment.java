@@ -119,8 +119,12 @@ public class FirstFragment extends Fragment {
                         isCrack = true;
                         egg.setImageResource(R.drawable.newcrack);
 
-                        Vibrator v = (Vibrator) getContext().getSystemService(getContext().VIBRATOR_SERVICE);
-                        v.vibrate(500);
+                        try {
+                            Vibrator v = (Vibrator) getContext().getSystemService(getContext().VIBRATOR_SERVICE);
+                            v.vibrate(500);
+                        }catch (Exception e){
+                            Log.d("error", "Erreur, sauver par le Try");
+                        }
 
                         try {
 

@@ -68,7 +68,7 @@ public class GpsListener extends AppCompatActivity implements android.location.L
         }
 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-        mSensorManager.registerListener(this, accelerometer, 100000);
+        mSensorManager.registerListener(this, accelerometer, 500000);
         //mSensorManager.registerListener(this, gyroscope, 100000);
 
         this.gpsCallBack = gpsCallBack;
