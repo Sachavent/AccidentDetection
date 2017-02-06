@@ -23,9 +23,9 @@ public class AltertDialogHelper {
 
     public void shouldISendMessage() {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("Warning");
-        builder.setMessage("You have 60 seconds before sending an SMS:\n\n 00:10");
-        builder.setNeutralButton("Cancel the sending",
+        builder.setTitle("Attention");
+        builder.setMessage("Vous avez 60 secondes avant l'envoi du SMS d'urgence:\n\n 00:10");
+        builder.setNeutralButton("Annuler l'envoi",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         altertDialogCallback.onTimerFinish(false);
@@ -39,7 +39,7 @@ public class AltertDialogHelper {
         new CountDownTimer(60000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                alertDialog.setMessage("You have 60 secondes before sending an SMS:\n\n 00:" + (millisUntilFinished / 1000));
+                alertDialog.setMessage("Vous avez 60 secondes avant l'envoi du SMS d'urgence:\n\n 00:" + (millisUntilFinished / 1000));
             }
 
             @Override

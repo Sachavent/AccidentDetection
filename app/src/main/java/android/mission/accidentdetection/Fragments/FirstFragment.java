@@ -11,6 +11,7 @@ import android.mission.accidentdetection.Listener.GpsListener;
 import android.mission.accidentdetection.R;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Vibrator;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -118,6 +119,9 @@ public class FirstFragment extends Fragment {
                         isCrack = true;
                         egg.setImageResource(R.drawable.newcrack);
 
+                        Vibrator v = (Vibrator) getContext().getSystemService(getContext().VIBRATOR_SERVICE);
+                        v.vibrate(500);
+
                         try {
 
                             /** Creating an alertdialog to prevent the user that he has 60 secondss to cancel the operation */
@@ -165,7 +169,7 @@ public class FirstFragment extends Fragment {
                     percentage.setText(Math.floor(AccidentProba * 10) / 10 + "%");
 
                     //Show toast
-                    totoast.setText("GPS data are more that 30sec old");
+                    totoast.setText("Pas de signal GPS");
                     totoast.show();
 
                     Random rand = new Random();
@@ -173,9 +177,12 @@ public class FirstFragment extends Fragment {
                     egg.setRotation(n * AccidentProba * 5);
 
 
-                    if (AccidentProba > 5) {
+                    if (AccidentProba > 10) {
                         isCrack = true;
                         egg.setImageResource(R.drawable.newcrack);
+
+                        Vibrator v = (Vibrator) getContext().getSystemService(getContext().VIBRATOR_SERVICE);
+                        v.vibrate(500);
                     }
 
                 }

@@ -5,10 +5,10 @@
         <item
             android:id="@+id/nav_first_fragment"
             android:icon="@drawable/detect"
-            android:title="Detecteur" />
+            android:title="@string/detecMenu" />
         <item
             android:id="@+id/nav_second_fragment"
             android:icon="@drawable/param"
-            android:title="Parametre" />
+            android:title="@string/paramMenu" />
     </group>
 </menu>

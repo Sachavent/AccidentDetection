@@ -1,7 +1,11 @@
 <resources>
-    <string name="app_name">Accident Detection</string>
-    <string name="title_activity_home">Home</string>
+    <string name="app_name">ASAPP</string>
+    <string name="title_activity_home">Detecteur</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
-    <string name="add_contact">Add an emergency contact</string>
+    <string name="add_contact">Ajouter un contact d\'urgence</string>
+    <string name="menu">Menu</string>
+    <string name="bienvenu">Bienvenu</string>
+    <string name="paramMenu">Parametres</string>
+    <string name="detecMenu">Detecteur</string>
 </resources>
