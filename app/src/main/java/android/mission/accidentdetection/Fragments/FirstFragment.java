@@ -177,13 +177,13 @@ public class FirstFragment extends Fragment {
                     egg.setRotation(n * AccidentProba * 5);
 
 
-                    if (AccidentProba > 10) {
+                    /*if (AccidentProba > 10) {
                         isCrack = true;
                         egg.setImageResource(R.drawable.newcrack);
 
                         Vibrator v = (Vibrator) getContext().getSystemService(getContext().VIBRATOR_SERVICE);
                         v.vibrate(500);
-                    }
+                    }*/
 
                 }
 

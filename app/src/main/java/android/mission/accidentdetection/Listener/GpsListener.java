@@ -35,7 +35,7 @@ public class GpsListener extends AppCompatActivity implements android.location.L
     //Sensor manager
     private SensorManager mSensorManager;
     private Sensor accelerometer;
-    private Sensor gyroscope;
+    //private Sensor gyroscope;
     float gravity[] = {0,0,(float)9.81};
 
     // Location
@@ -50,7 +50,7 @@ public class GpsListener extends AppCompatActivity implements android.location.L
         //Register
         mSensorManager = (SensorManager) contexte.getSystemService(Context.SENSOR_SERVICE);
         accelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        gyroscope = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
+        //gyroscope = mSensorManager.getDefaultSensor(Sensor.TYPE_GYROSCOPE);
 
         // Lance le service de localisation
         timeLastLocationData = (int)(System.currentTimeMillis()/1000);
@@ -68,8 +68,8 @@ public class GpsListener extends AppCompatActivity implements android.location.L
         }
 
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
-        mSensorManager.registerListener(this, accelerometer, 100000);
-        mSensorManager.registerListener(this, gyroscope, 100000);
+        mSensorManager.registerListener(this, accelerometer, 1000000000);
+        //mSensorManager.registerListener(this, gyroscope, 100000);
 
         this.gpsCallBack = gpsCallBack;
     }
@@ -78,7 +78,7 @@ public class GpsListener extends AppCompatActivity implements android.location.L
     public void calculChoc(float pwr) {
 
         //if choc < 1 m/s^2 do nothing
-        if (pwr < 1) {return;}
+        if (pwr < 2) {return;}
 
         float AccidentProba = 0;
         AccidentProba = pwr/2;
