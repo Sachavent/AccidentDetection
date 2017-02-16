@@ -14,9 +14,9 @@
         android:layout_height="wrap_content"
         android:text="0.0%"
         android:id="@+id/percentageID"
+        android:textAppearance="@android:style/TextAppearance.Material.Display4"
         android:fontFamily="sans-serif-light"
         android:typeface="monospace"
-        android:textSize="100dp"
         android:textColor="@color/colorPrimary"
         android:textAlignment="center" />
 
