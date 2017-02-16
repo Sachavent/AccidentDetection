@@ -114,8 +114,10 @@ public class GpsListener extends AppCompatActivity implements android.location.L
 
     @Override
     public void onSensorChanged(SensorEvent event) {
+
         if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER){
-               // alpha is calculated as t / (t + dT)
+
+            // alpha is calculated as t / (t + dT)
                // with t, the low-pass filter's time-constant
                // and dT, the event delivery rate
                float alpha = (float)0.8;
